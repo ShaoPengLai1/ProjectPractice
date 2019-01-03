@@ -34,7 +34,7 @@
         <RadioButton
             android:id="@+id/homeRadio"
             android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+            android:layout_height="@dimen/dp_25"
             android:layout_weight="1"
             android:button="@null"
             android:background="@drawable/selector_button_home"
@@ -50,7 +50,7 @@
         <RadioButton
             android:id="@+id/momentsRadio"
             android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+            android:layout_height="@dimen/dp_25"
             android:layout_weight="1"
             android:button="@null"
             android:layout_marginTop="@dimen/dp_10"
@@ -70,7 +70,7 @@
         <RadioButton
             android:id="@+id/purchaseOrderRadio"
             android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+            android:layout_height="@dimen/dp_25"
             android:layout_weight="1"
             android:button="@null"
             android:layout_marginTop="@dimen/dp_10"
@@ -80,7 +80,7 @@
         <RadioButton
             android:id="@+id/mineRadio"
             android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
+            android:layout_height="@dimen/dp_25"
             android:layout_weight="1"
             android:button="@null"
             android:layout_marginTop="@dimen/dp_10"

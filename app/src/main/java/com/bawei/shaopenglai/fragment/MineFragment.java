@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bawei.shaopenglai.R;
+import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
 import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
 
 import butterknife.BindView;
@@ -75,6 +76,8 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.mycircle:
+                Intent intent1=new Intent(getActivity(),MyGroupActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.footprint:
                 break;
