@@ -1,28 +1,40 @@
 package com.bawei.shaopenglai.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.adapter.BottomHomeAdapter;
+import com.bawei.shaopenglai.adapter.ByIdAdapter;
+import com.bawei.shaopenglai.adapter.ByNameAdapter;
+import com.bawei.shaopenglai.adapter.HotAdapter;
+import com.bawei.shaopenglai.adapter.MoAdapter;
+import com.bawei.shaopenglai.adapter.PinAdapter;
 import com.bawei.shaopenglai.adapter.TopHomeAdapter;
 import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.BottomTasBean;
+import com.bawei.shaopenglai.bean.ByIdBean;
+import com.bawei.shaopenglai.bean.ByName;
+import com.bawei.shaopenglai.bean.HomeBean;
 import com.bawei.shaopenglai.bean.TopLasBean;
 import com.bawei.shaopenglai.bean.XBannerBeans;
 import com.bawei.shaopenglai.custom.AppinfoiItemDecoration;
@@ -56,13 +68,35 @@ public class HomeFragment extends Fragment implements IView {
     Unbinder unbinder;
     @BindView(R.id.xbanner_home)
     XBanner xbannerHome;
+    @BindView(R.id.con_tv)
+    TextView conTv;
+    @BindView(R.id.con_icon1)
+    ImageView conIcon1;
+    @BindView(R.id.recy_re)
+    RecyclerView recyRe;
+    @BindView(R.id.con_tv2)
+    TextView conTv2;
+    @BindView(R.id.recy_mo)
+    RecyclerView recyMo;
+    @BindView(R.id.con_tv3)
+    TextView conTv3;
+    @BindView(R.id.recy_pin)
+    RecyclerView recyPin;
+    @BindView(R.id.byName)
+    RecyclerView byName;
+    @BindView(R.id.scroll)
+    ScrollView scroll;
     private PopupWindow popupWindow;
     private TopHomeAdapter adapter;
     private IPresenterImpl iPresenter;
     private BottomHomeAdapter botmViewHolder;
     private TopLasBean topLasBean;
     private List<String> mImgUrl;
-
+    private HotAdapter hotAdapter;
+    private MoAdapter moAdapter;
+    private PinAdapter pinAdapter;
+    private ByNameAdapter byNameAdapter;
+    private BottomTasBean bottomTasBean;
 
     @Nullable
     @Override
@@ -72,8 +106,32 @@ public class HomeFragment extends Fragment implements IView {
         iPresenter = new IPresenterImpl(this);
         mImgUrl = new ArrayList<>();
         iPresenter.startRequestGet(Apis.URL_BANNER_SHOW_GET, null, XBannerBeans.class);
+        initRecy();
         return view;
 
+    }
+
+    private void initRecy() {
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        byName.setLayoutManager(manager);
+        byNameAdapter = new ByNameAdapter(getActivity());
+        byName.setAdapter(byNameAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyRe.setLayoutManager(gridLayoutManager);
+        hotAdapter = new HotAdapter(getActivity());
+        recyRe.setAdapter(hotAdapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyMo.setLayoutManager(layoutManager);
+        moAdapter = new MoAdapter(getActivity());
+        recyMo.setAdapter(moAdapter);
+        GridLayoutManager gridLayoutManagers = new GridLayoutManager(getActivity(), 2);
+        gridLayoutManagers.setOrientation(LinearLayoutManager.VERTICAL);
+        recyPin.setLayoutManager(gridLayoutManagers);
+        pinAdapter = new PinAdapter(getActivity());
+        recyPin.setAdapter(pinAdapter);
     }
 
 
@@ -96,12 +154,22 @@ public class HomeFragment extends Fragment implements IView {
                 homeSearch.setVisibility(View.INVISIBLE);
                 break;
             case R.id.home_tv:
+                if (homeEd.getText().toString().equals("")) {
+                    homeSearch.setVisibility(View.VISIBLE);
+                    homeTv.setVisibility(View.GONE);
+                    homeEd.setVisibility(View.INVISIBLE);
+                } else {
+                    iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYKEYWORD_GET + "?keyword=" + homeEd.getText().toString() + "&page=" + "1" + "&count=5", null, ByName.class);
+                }
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * 左上角按钮显示数据
+     */
     private void initData() {
         View v = View.inflate(getActivity(), R.layout.popup_item_home, null);
         //加载上面的布局的RecyclerView
@@ -110,7 +178,6 @@ public class HomeFragment extends Fragment implements IView {
         //一级条目布局管理器
         topView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         topView.setAdapter(adapter);
-
         //设置条目之间的间距
         AppinfoiItemDecoration decoration = new AppinfoiItemDecoration();
         topView.addItemDecoration(decoration);
@@ -132,14 +199,20 @@ public class HomeFragment extends Fragment implements IView {
         //设置位置
         popupWindow.showAtLocation(v, Gravity.CENTER_VERTICAL, 0, -340);
         loadData();
+
         adapter.result(new TopHomeAdapter.Cicklistener() {
             @Override
             public void setonclicklisener(int index) {
                 String id = topLasBean.getResult().get(index).getId();
-                //Map<String,String> map=new HashMap<>();
-                //map.put("firstCategoryId",id);
-                iPresenter.startRequestGet(Apis.URL_FIND_SECOND_CATEGORY_GET + id, null, BottomTasBean.class);
-
+                iPresenter.startRequestGet(Apis.URL_FIND_SECOND_CATEGORY_GET + id,
+                        null, BottomTasBean.class);
+                botmViewHolder.result(new TopHomeAdapter.Cicklistener() {
+                    @Override
+                    public void setonclicklisener(int index) {
+                        String id1 = bottomTasBean.getResult().get(index).getId();
+                        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYCATEGORY_GET+"?categoryId="+id1+"&page=1&count=10",null,ByIdBean.class);
+                    }
+                });
             }
         });
         loadData();
@@ -151,6 +224,9 @@ public class HomeFragment extends Fragment implements IView {
 
     @Override
     public void getDataSuccess(Object data) {
+        /**
+         * 一级列表
+         */
         if (data instanceof TopLasBean) {
             topLasBean = (TopLasBean) data;
             if (topLasBean == null || !topLasBean.isSucess()) {
@@ -158,13 +234,19 @@ public class HomeFragment extends Fragment implements IView {
             } else {
                 adapter.setData(topLasBean.getResult());
             }
+            /**
+             * 二级列表
+             */
         } else if (data instanceof BottomTasBean) {
-            BottomTasBean bottomTasBean = (BottomTasBean) data;
+            bottomTasBean = (BottomTasBean) data;
             if (bottomTasBean == null || !bottomTasBean.isSuccess()) {
                 Toast.makeText(getActivity(), bottomTasBean.getMessage(), Toast.LENGTH_LONG).show();
             } else {
                 botmViewHolder.setData(bottomTasBean.getResult());
             }
+            /**
+             * 轮播图
+             */
         } else if (data instanceof XBannerBeans) {
             XBannerBeans xBannerBeans = (XBannerBeans) data;
             if (xBannerBeans == null || !xBannerBeans.isSuccess()) {
@@ -174,13 +256,41 @@ public class HomeFragment extends Fragment implements IView {
                     mImgUrl.add(xBannerBeans.getResult().get(i).getImageUrl());
                     //加载图片
                     initImageData();
+                    iPresenter.startRequestGet(Apis.URL_COMMODITY_LIST_GET,null,HomeBean.class);
                 }
             }
+        }
+        if (data instanceof TopLasBean) {
+            TopLasBean topLasBean = (TopLasBean) data;
+            adapter.setData(topLasBean.getResult());
+        }
+        if (data instanceof HomeBean) {
+            HomeBean homeBean = (HomeBean) data;
+            hotAdapter.setData(homeBean.getResult().getRxxp().get(0).getCommodityList());
+            moAdapter.setData(homeBean.getResult().getMlss().get(0).getCommodityList());
+            pinAdapter.setData(homeBean.getResult().getPzsh().get(0).getCommodityList());
+        }
+        if (data instanceof ByName) {
+            ByName byNames = (ByName) data;
+            scroll.setVisibility(View.GONE);
+            byName.setVisibility(View.VISIBLE);
+            byNameAdapter.setData(byNames.getResult());
+        }
+
+        if (data instanceof ByIdBean){
+            ByIdBean byIdBean= (ByIdBean) data;
+            scroll.setVisibility(View.GONE);
+            byName.setVisibility(View.VISIBLE);
+            ByIdAdapter byIdAdapter=new ByIdAdapter(getActivity());
+            byName.setAdapter(byIdAdapter);
+            List<ByIdBean.ResultBean> result=byIdBean.getResult();
+            byIdAdapter.setData(result);
+
         }
     }
 
     private void initImageData() {
-        xbannerHome.setData(mImgUrl,null);
+        xbannerHome.setData(mImgUrl, null);
         xbannerHome.loadImage(new XBanner.XBannerAdapter() {
             @Override
             public void loadBanner(XBanner banner, Object model, View view, int position) {
@@ -209,4 +319,5 @@ public class HomeFragment extends Fragment implements IView {
         super.onDestroy();
         iPresenter.onDetach();
     }
+
 }

@@ -56,4 +56,6 @@ dependencies {
     implementation "io.reactivex:rxjava:$rootProject.rxjava"
     implementation "com.hwangjr.rxbus:rxbus:$rootProject.rxbus"
     implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.adapterRxjava"
+    //城市三级列表展示
+    implementation 'liji.library.dev:citypickerview:1.1.0'
 }

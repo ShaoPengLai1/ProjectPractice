@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bawei.shaopenglai.R;
+import com.bawei.shaopenglai.ui.mineui.CityListActivity;
 import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
 import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
 
@@ -84,8 +85,11 @@ public class MineFragment extends Fragment {
             case R.id.Wallet:
                 break;
             case R.id.shippingaddress:
+                Intent intent5=new Intent(getActivity(),CityListActivity.class);
+                startActivity(intent5);
                 break;
             case R.id.mine_icon:
+
                 break;
                 default:
                     break;

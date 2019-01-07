@@ -60,7 +60,7 @@ public class Apis {
     /**
      * 根据订单状态查询订单信息 http://172.17.8.100/small/order/verify/v1/findOrderListByStatus
      */
-    public static final String URL_FIND_ORDER_LIST_BYSTATUS_GET="user/verify/v1/findUserWallet";
+    public static final String URL_FIND_ORDER_LIST_BYSTATUS_GET="order/verify/v1/findOrderListByStatus";
     /**
      * 删除订单 http://172.17.8.100/small/order/verify/v1/deleteOrder
      */
@@ -80,7 +80,7 @@ public class Apis {
     /**
      * 查询订单明细数据 http://172.17.8.100/small/order/verify/v1/findOrderInfo
      */
-    public static final String URL_FIND_ORDER_INFO_GET="user/verify/v1/findOrderInfo";
+    public static final String URL_FIND_ORDER_INFO_GET="order/verify/v1/findOrderInfo";
     /**
      * 圈子列表 http://172.17.8.100/small/circle/v1/findCircleList
      */

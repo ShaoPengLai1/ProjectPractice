@@ -107,10 +107,12 @@ public class MainActivity extends AppCompatActivity implements IView {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction()==MotionEvent.ACTION_DOWN){
-                    activityLoginPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    activityLoginPassword.setTransformationMethod(HideReturnsTransformationMethod.
+                            getInstance());
                     Passwordswitching.setBackgroundResource(R.drawable.ic_action_eye);
                 }else if (event.getAction()==MotionEvent.ACTION_UP){
-                    activityLoginPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    activityLoginPassword.setTransformationMethod(PasswordTransformationMethod.
+                            getInstance());
                     Passwordswitching.setBackgroundResource(R.drawable.ic_action_name);
                 }
                 return false;
@@ -119,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements IView {
         //loadData();
     }
 
-    @OnClick({R.id.activity_login_phone, R.id.login_pass, R.id.activity_login_password, R.id.Passwordswitching, R.id.Rememberpassword, R.id.register, R.id.loginSubmit})
+    @OnClick({R.id.activity_login_phone, R.id.login_pass, R.id.activity_login_password,
+            R.id.Passwordswitching, R.id.Rememberpassword, R.id.register, R.id.loginSubmit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.activity_login_phone:
@@ -165,8 +168,10 @@ public class MainActivity extends AppCompatActivity implements IView {
 
     private void loadData() {
         Map<String,String> params=new HashMap<>();
-        params.put(Constants.POST_BODY_KEY_LOGIN_PHONE,activityLoginPhone.getText().toString().trim());
-        params.put(Constants.POST_BODY_KEY_LOGIN_PASSWORD,activityLoginPassword.getText().toString().trim());
+        params.put(Constants.POST_BODY_KEY_LOGIN_PHONE,activityLoginPhone.
+                getText().toString().trim());
+        params.put(Constants.POST_BODY_KEY_LOGIN_PASSWORD,activityLoginPassword.
+                getText().toString().trim());
         iPresenter.startRequestPost(Apis.URL_LOGIN_POST,params,Loginbean.class);
     }
 
@@ -175,9 +180,14 @@ public class MainActivity extends AppCompatActivity implements IView {
         if (data instanceof Loginbean){
             Loginbean loginbean= (Loginbean) data;
             if (loginbean==null||!loginbean.isSuceess()){
-                Toast.makeText(MainActivity.this,loginbean.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this,loginbean.getMessage(),
+                        Toast.LENGTH_LONG).show();
             }else {
-                Intent intet=new Intent(MainActivity.this,ShoppingTrolleyActivity.class);
+                SharedPreferences preferences = getSharedPreferences("UserShao", MODE_PRIVATE);
+                preferences.edit().putString("userId",loginbean.getResult().getUserId()+"").
+                        putString("sessionId",loginbean.getResult().getSessionId()).commit();
+                Intent intet=new Intent(MainActivity.this,
+                        ShoppingTrolleyActivity.class);
                 startActivity(intet);
             }
 

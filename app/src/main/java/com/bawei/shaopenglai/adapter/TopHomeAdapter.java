@@ -1,6 +1,7 @@
 package com.bawei.shaopenglai.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,12 +30,14 @@ public class TopHomeAdapter extends RecyclerView.Adapter<TopHomeAdapter.TopRecyc
     public TopHomeAdapter(Context mContext) {
         this.mContext = mContext;
         mList=new ArrayList<>();
+
     }
 
     public void setData(List<TopLasBean.ResultBean> datas) {
         mList.clear();
         if (datas!=null){
             mList.addAll(datas);
+
         }
         notifyDataSetChanged();
     }
@@ -50,6 +53,8 @@ public class TopHomeAdapter extends RecyclerView.Adapter<TopHomeAdapter.TopRecyc
     public void onBindViewHolder(@NonNull TopRecyclerView viewHolder, final int i) {
         TopRecyclerView topRecyclerView= viewHolder;
         topRecyclerView.recycle_top_item.setText(mList.get(i).getName());
+        topRecyclerView.itemView.setTag(topRecyclerView.recycle_top_item);
+
         topRecyclerView.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,4 +84,5 @@ public class TopHomeAdapter extends RecyclerView.Adapter<TopHomeAdapter.TopRecyc
     public interface Cicklistener {
         void setonclicklisener(int index);
     }
+
 }

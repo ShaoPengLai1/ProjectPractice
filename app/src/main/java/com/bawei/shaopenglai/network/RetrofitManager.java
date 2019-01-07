@@ -32,17 +32,16 @@ public class RetrofitManager <T>{
     private BaseApis mBaseApis;
 
     public RetrofitManager() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);*/
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(15, TimeUnit.SECONDS);
         builder.readTimeout(15, TimeUnit.SECONDS);
         builder.writeTimeout(15, TimeUnit.SECONDS);
-        builder.addInterceptor(interceptor);
+        builder.addInterceptor(new CustomIntercept());
         builder.retryOnConnectionFailure(true);
         OkHttpClient client = builder.build();
-
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(BASE_URL)

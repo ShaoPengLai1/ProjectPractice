@@ -53,6 +53,7 @@
             />
     </RelativeLayout>
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -121,7 +122,8 @@
 
                             app:layout_constraintBottom_toBottomOf="@id/con_tv"
                             />
-                        <com.jcodecraeer.xrecyclerview.XRecyclerView
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recy_re"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_160"
                             app:layout_constraintTop_toBottomOf="@id/con_tv"
@@ -162,7 +164,8 @@
                             app:layout_constraintTop_toTopOf="@id/con_tv2"
                             app:layout_constraintBottom_toBottomOf="@id/con_tv2"
                             />
-                        <com.jcodecraeer.xrecyclerview.XRecyclerView
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recy_mo"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_160"
                             app:layout_constraintTop_toBottomOf="@id/con_tv2"
@@ -202,7 +205,8 @@
                             app:layout_constraintTop_toTopOf="@id/con_tv3"
                             app:layout_constraintBottom_toBottomOf="@id/con_tv3"
                             />
-                        <com.jcodecraeer.xrecyclerview.XRecyclerView
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recy_pin"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/dp_160"
                             app:layout_constraintTop_toBottomOf="@id/con_tv3"
@@ -213,4 +217,10 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/byName"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        ></android.support.v7.widget.RecyclerView>
 </LinearLayout>

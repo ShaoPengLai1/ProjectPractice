@@ -67,7 +67,7 @@ public class PurchaseOrderFragment extends Fragment {
         fragmentList.add(new ForCollection());
         fragmentList.add(new BeevaluatedPage());
         fragmentList.add(new Completed());
-        PurchaseViewPage.setAdapter(new FragmentPagerAdapter(getFragmentManager()) {
+        PurchaseViewPage.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int i) {
                 return fragmentList.get(i);

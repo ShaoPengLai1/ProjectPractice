@@ -40,9 +40,17 @@ public class BottomHomeAdapter extends RecyclerView.Adapter<BottomHomeAdapter.Bo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BotmRecyclerView viewHolder, int i) {
+    public void onBindViewHolder(@NonNull BotmRecyclerView viewHolder, final int i) {
         BotmRecyclerView botmRecyclerView=viewHolder;
         viewHolder.bottomTv1.setText(mList.get(i).getName());
+        botmRecyclerView.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.setonclicklisener(i);
+                }
+            }
+        });
     }
 
     @Override
@@ -55,5 +63,13 @@ public class BottomHomeAdapter extends RecyclerView.Adapter<BottomHomeAdapter.Bo
             super(itemView);
             bottomTv1=itemView.findViewById(R.id.bottomTv1);
         }
+    }
+    private TopHomeAdapter.Cicklistener listener;
+
+    public void result(TopHomeAdapter.Cicklistener listener) {
+        this.listener = listener;
+    }
+    public interface Cicklistener {
+        void setonclicklisener(int index);
     }
 }
