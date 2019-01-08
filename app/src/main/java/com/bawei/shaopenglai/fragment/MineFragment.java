@@ -12,11 +12,24 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
+import com.bawei.shaopenglai.api.Apis;
+import com.bawei.shaopenglai.bean.GoodsBean;
+import com.bawei.shaopenglai.bean.Loginbean;
+import com.bawei.shaopenglai.bean.MineBean;
+import com.bawei.shaopenglai.custom.EventBean;
+import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.mineui.CityListActivity;
 import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
 import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
+import com.bawei.shaopenglai.view.IView;
+import com.bumptech.glide.Glide;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +41,7 @@ import butterknife.Unbinder;
  * @time 2018/12/29 19:09
  */
 
-public class MineFragment extends Fragment {
+public class MineFragment extends Fragment implements IView {
 
     @BindView(R.id.nickname)
     TextView nickname;
@@ -45,6 +58,9 @@ public class MineFragment extends Fragment {
     @BindView(R.id.mine_icon)
     ImageView mineIcon;
     Unbinder unbinder;
+    private IPresenterImpl iPresenter;
+    private Loginbean loginbean;
+
 
     @Nullable
     @Override
@@ -59,6 +75,18 @@ public class MineFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        iPresenter=new IPresenterImpl(this);
+        loadData();
+
+    }
+
+    private void loadData() {
+
     }
 
     @Override
@@ -94,5 +122,43 @@ public class MineFragment extends Fragment {
                 default:
                     break;
         }
+    }
+
+    @Override
+    public void getDataSuccess(Object data) {
+
+    }
+
+    @Override
+    public void getDataFail(String error) {
+        Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
+    public void onEvent(EventBean evBean) {
+        if (evBean.getName().equals("main")){
+            loginbean = (Loginbean) evBean.getClazz();
+            Glide.with(getActivity()).load(loginbean.getResult().getHeadPic()).into(mineIcon);
+            nickname.setText(loginbean.getResult().getNickName());
+        }
+    }
+
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        EventBus.getDefault().unregister(this);
+//    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
     }
 }

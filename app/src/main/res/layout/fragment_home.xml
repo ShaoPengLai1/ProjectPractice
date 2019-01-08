@@ -114,8 +114,8 @@
                             />
                         <ImageView
                             android:id="@+id/con_icon1"
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:background="@mipmap/common_btn_more_yellow_n_hdpi"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="@id/con_tv"
@@ -157,8 +157,8 @@
                             android:textColor="#00ffdf"
                             />
                         <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:background="@mipmap/home_btn_more_purple_n_hdpi"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="@id/con_tv2"
@@ -198,8 +198,8 @@
                             android:textColor="#ffd000"
                             />
                         <ImageView
-                            android:layout_width="@dimen/dp_24"
-                            android:layout_height="@dimen/dp_12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:background="@mipmap/home_btn_more_purple_n_hdpi"
                             app:layout_constraintRight_toRightOf="parent"
                             app:layout_constraintTop_toTopOf="@id/con_tv3"

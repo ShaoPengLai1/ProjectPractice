@@ -20,4 +20,10 @@ public class Constants {
      */
     public static final String URL_UPDATE_NAME_POST_USERID="userid";
     public static final String URL_UPDATE_NAME_POST_SESSIONID="sessionId";
+    /**
+     * 加入购物车
+     */
+    public static final String URL_ADD_SHOPPING_CAR_PUT="commodityId";
+    public static final String URL_ADD_SHOPPING_CAR_COUNT_PUT="count";
+
 }

@@ -45,7 +45,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@id/recycle_price"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/dp_100"
+                    android:layout_marginLeft="@dimen/dp_120"
                     ></com.bawei.shaopenglai.custom.CustomJiaJian>
         </RelativeLayout>
     </ScrollView>

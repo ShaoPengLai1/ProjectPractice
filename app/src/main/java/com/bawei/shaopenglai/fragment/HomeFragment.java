@@ -34,15 +34,20 @@ import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.BottomTasBean;
 import com.bawei.shaopenglai.bean.ByIdBean;
 import com.bawei.shaopenglai.bean.ByName;
+import com.bawei.shaopenglai.bean.GoodsBean;
 import com.bawei.shaopenglai.bean.HomeBean;
 import com.bawei.shaopenglai.bean.TopLasBean;
 import com.bawei.shaopenglai.bean.XBannerBeans;
 import com.bawei.shaopenglai.custom.AppinfoiItemDecoration;
+import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
+import com.bawei.shaopenglai.ui.GoodsActivity;
 import com.bawei.shaopenglai.view.IView;
 import com.bumptech.glide.Glide;
 import com.stx.xhb.xbanner.XBanner;
 import com.stx.xhb.xbanner.transformers.Transformer;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -244,6 +249,13 @@ public class HomeFragment extends Fragment implements IView {
             } else {
                 botmViewHolder.setData(bottomTasBean.getResult());
             }
+//            botmViewHolder.result(new TopHomeAdapter.Cicklistener() {
+//                @Override
+//                public void setonclicklisener(int index) {
+//                    String id = bottomTasBean.getResult().get(index).getId();
+//                    getGoods(Integer.parseInt(id));
+//                }
+//            });
             /**
              * 轮播图
              */
@@ -265,27 +277,67 @@ public class HomeFragment extends Fragment implements IView {
             adapter.setData(topLasBean.getResult());
         }
         if (data instanceof HomeBean) {
-            HomeBean homeBean = (HomeBean) data;
+            final HomeBean homeBean = (HomeBean) data;
             hotAdapter.setData(homeBean.getResult().getRxxp().get(0).getCommodityList());
             moAdapter.setData(homeBean.getResult().getMlss().get(0).getCommodityList());
             pinAdapter.setData(homeBean.getResult().getPzsh().get(0).getCommodityList());
+            hotAdapter.result(new TopHomeAdapter.Cicklistener() {
+                @Override
+                public void setonclicklisener(int index) {
+                    int commodityId = homeBean.getResult().getRxxp().get(0).getCommodityList().get(index).getCommodityId();
+                    getGoods(commodityId);
+                }
+            });
+            moAdapter.result(new TopHomeAdapter.Cicklistener() {
+                @Override
+                public void setonclicklisener(int index) {
+                    int commodityId = homeBean.getResult().getMlss().get(0).getCommodityList().get(index).getCommodityId();
+                    getGoods(commodityId);
+                }
+            });
+            pinAdapter.result(new TopHomeAdapter.Cicklistener() {
+                @Override
+                public void setonclicklisener(int index) {
+                    int commodityId = homeBean.getResult().getPzsh().get(0).getCommodityList().get(index).getCommodityId();
+                    getGoods(commodityId);
+                }
+            });
+
+
+
         }
         if (data instanceof ByName) {
-            ByName byNames = (ByName) data;
+            final ByName byNames = (ByName) data;
             scroll.setVisibility(View.GONE);
             byName.setVisibility(View.VISIBLE);
             byNameAdapter.setData(byNames.getResult());
+            byNameAdapter.result(new TopHomeAdapter.Cicklistener() {
+                @Override
+                public void setonclicklisener(int index) {
+                    getGoods(byNames.getResult().get(index).getCommodityId());
+                }
+            });
         }
 
         if (data instanceof ByIdBean){
-            ByIdBean byIdBean= (ByIdBean) data;
+            final ByIdBean byIdBean= (ByIdBean) data;
             scroll.setVisibility(View.GONE);
             byName.setVisibility(View.VISIBLE);
             ByIdAdapter byIdAdapter=new ByIdAdapter(getActivity());
             byName.setAdapter(byIdAdapter);
             List<ByIdBean.ResultBean> result=byIdBean.getResult();
             byIdAdapter.setData(result);
+            byIdAdapter.result(new TopHomeAdapter.Cicklistener() {
+                @Override
+                public void setonclicklisener(int index) {
+                    getGoods(byIdBean.getResult().get(index).getCommodityId());
+                }
+            });
 
+        }
+        if (data instanceof GoodsBean){
+            EventBus.getDefault().postSticky(new EventBean("goods",data));
+            startActivity(new Intent(getActivity(),GoodsActivity.class));
         }
     }
 
@@ -311,6 +363,10 @@ public class HomeFragment extends Fragment implements IView {
     @Override
     public void getDataFail(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
+    }
+
+    private void getGoods(int id){
+        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET+"?commodityId="+id,null,GoodsBean.class);
     }
 
     //解绑，防止内存泄漏

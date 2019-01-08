@@ -107,6 +107,20 @@ public class RetrofitManager <T>{
                 .subscribe(observer);
         return mRetrofitManager;
     }
+
+    /**
+     * put 请求
+     */
+    public RetrofitManager put(String url,Map<String,RequestBody> map,HttpListener mHttpListener){
+        if (map == null){
+            map =new HashMap<>();
+        }
+        mBaseApis.put(url,map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+        return mRetrofitManager;
+    }
     private Observer observer = new Observer<ResponseBody>() {
         @Override
         public void onNext(ResponseBody responseBody) {

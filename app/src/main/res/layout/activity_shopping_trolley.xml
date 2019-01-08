@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context=".ShoppingTrolleyActivity">
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/contents"
         android:layout_width="match_parent"
@@ -90,5 +89,11 @@
             />
 
     </RadioGroup>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/bg_homepage_bottom"
+            android:visibility="gone"
+            />
     </LinearLayout>
 </LinearLayout>

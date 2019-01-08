@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingLeft="@dimen/dp_24"
     android:paddingRight="@dimen/dp_24"
-    >
+    tools:context=".ui.shopping.TJDDActivity">
 
     <Button
+        android:id="@+id/addAddress"
         android:layout_width="@dimen/dp_312"
         android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_40"
@@ -19,12 +22,14 @@
         />
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
         android:paddingTop="@dimen/dp_20"
+        android:layout_below="@id/addAddress"
         android:background="@drawable/shopping_but_addr"
+
         >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/allordersRecycle"
@@ -37,6 +42,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
+        android:background="@drawable/shape_price_tjdd"
+        android:layout_alignParentBottom="true"
         >
         <TextView
             android:id="@+id/relativeTv4"
@@ -81,7 +88,7 @@
             android:layout_toRightOf="@id/allordersPrice"
             />
         <TextView
-            android:layout_width="@dimen/dp_80"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_50"
             android:layout_alignParentRight="true"
             android:background="@drawable/qujiesuan"
@@ -91,4 +98,4 @@
             android:textSize="@dimen/sp_16"
             />
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>

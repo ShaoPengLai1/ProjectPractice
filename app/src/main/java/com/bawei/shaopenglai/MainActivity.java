@@ -23,9 +23,12 @@ import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.Loginbean;
 import com.bawei.shaopenglai.bean.RegisterBean;
 import com.bawei.shaopenglai.custom.Constants;
+import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.network.NonNullUtils;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -186,9 +189,11 @@ public class MainActivity extends AppCompatActivity implements IView {
                 SharedPreferences preferences = getSharedPreferences("UserShao", MODE_PRIVATE);
                 preferences.edit().putString("userId",loginbean.getResult().getUserId()+"").
                         putString("sessionId",loginbean.getResult().getSessionId()).commit();
+                EventBus.getDefault().postSticky(new EventBean("main",data));
                 Intent intet=new Intent(MainActivity.this,
                         ShoppingTrolleyActivity.class);
                 startActivity(intet);
+
             }
 
         }

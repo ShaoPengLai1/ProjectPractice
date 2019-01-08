@@ -7,7 +7,7 @@
                     <solid android:color="#999999" />
                     <corners android:radius="30dip" />
                 </shape>
-            </item>
+            </item>s
         </layer-list>
     </item>
 

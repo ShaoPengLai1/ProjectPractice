@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    >
+    <LinearLayout
+        android:id="@+id/id_back"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="0dp"
+        android:gravity="right"
+        >
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_97"
+            android:text="删除"
+            android:background="#ff5e70"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+
+        <CheckBox
+            android:id="@+id/item_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_14"
+            />
+        <RelativeLayout
+            android:layout_width="@dimen/dp_292"
+            android:layout_height="@dimen/dp_97">
+            <ImageView
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                android:background="@mipmap/touxiang_jf"
+                android:id="@+id/recycle_icon"
+                android:layout_marginRight="@dimen/dp_10"
+                />
+            <TextView
+                android:id="@+id/recycle_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/recycle_icon"
+
+                />
+            <TextView
+                android:id="@+id/recycle_price"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_20"
+                android:textColor="#ff0606"
+                android:layout_alignParentBottom="true"
+                android:text="668"
+                android:gravity="center"
+                android:layout_toRightOf="@id/recycle_icon"
+                />
+            <com.bawei.shaopenglai.custom.CustomJiaJian
+                android:id="@+id/customjiajian"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_20"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/recycle_price"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="@dimen/dp_80"
+                ></com.bawei.shaopenglai.custom.CustomJiaJian>
+        </RelativeLayout>
+        </LinearLayout>
+
+
+
+</FrameLayout>
