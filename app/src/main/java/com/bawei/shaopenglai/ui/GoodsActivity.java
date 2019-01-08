@@ -122,11 +122,12 @@ public class GoodsActivity extends AppCompatActivity{
                 production.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EventBean myDialog = new EventBean("myDialog", goodsBean);
-                        String s = count.getText().toString();
-                        myDialog.setNum(Integer.parseInt(s));
-                        EventBus.getDefault().postSticky(myDialog);
 
+                        EventBean mDialog = new EventBean("myDialog", goodsBean);
+                        String s = count.getText().toString();
+                        mDialog.setNum(Integer.parseInt(s));
+                        EventBus.getDefault().postSticky(myDialog);
+                        myDialog.dismiss();
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
