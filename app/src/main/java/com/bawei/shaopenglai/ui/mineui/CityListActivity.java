@@ -1,7 +1,9 @@
 package com.bawei.shaopenglai.ui.mineui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
@@ -34,7 +36,15 @@ public class CityListActivity extends AppCompatActivity {
     View viewFive;
     @BindView(R.id.youxiao)
     TextView youxiao;
+    @BindView(R.id.nickname)
+    TextView nickname;
+    @BindView(R.id.myPhone)
+    TextView myPhone;
     private CityPicker cityPicker;
+    private String province;
+    private String city;
+    private String district;
+    private String code;
 
 
     @Override
@@ -54,6 +64,11 @@ public class CityListActivity extends AppCompatActivity {
                 cityPicker.show();
             }
         });
+        Intent intent=getIntent();
+        String Name = intent.getStringExtra("nickName");
+        String phone = intent.getStringExtra("phone");
+        nickname.setText(Name);
+        myPhone.setText(phone);
 
     }
 
@@ -97,13 +112,13 @@ public class CityListActivity extends AppCompatActivity {
             @Override
             public void onSelected(String... citySelected) {
                 //省份
-                String province = citySelected[0];
+                province = citySelected[0];
                 //城市
-                String city = citySelected[1];
+                city = citySelected[1];
                 //区县（如果设定了两级联动，那么该项返回空）
-                String district = citySelected[2];
+                district = citySelected[2];
                 //邮编
-                String code = citySelected[3];
+                code = citySelected[3];
                 adresss.setText(province + city + district);
                 youxiao.setText(code);
             }
@@ -116,4 +131,5 @@ public class CityListActivity extends AppCompatActivity {
         });
 
     }
+
 }

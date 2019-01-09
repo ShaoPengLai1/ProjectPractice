@@ -36,12 +36,13 @@
             app:layout_constraintLeft_toLeftOf="parent"
 
             />
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/userPicture"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
+            app:roundAsCircle="true"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@drawable/shape_icon_ziliao"
+            android:background="#f00"
             />
         <View
             android:id="@+id/icon_view"
@@ -64,6 +65,7 @@
             android:layout_marginTop="@dimen/dp_10"
             />
         <TextView
+            android:id="@+id/nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"

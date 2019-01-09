@@ -111,7 +111,7 @@ public class RetrofitManager <T>{
     /**
      * put 请求
      */
-    public RetrofitManager put(String url,Map<String,RequestBody> map,HttpListener mHttpListener){
+    public RetrofitManager put(String url,Map<String,String> map){
         if (map == null){
             map =new HashMap<>();
         }

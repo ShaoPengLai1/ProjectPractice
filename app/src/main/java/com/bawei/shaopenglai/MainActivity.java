@@ -193,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements IView {
                 Intent intet=new Intent(MainActivity.this,
                         ShoppingTrolleyActivity.class);
                 startActivity(intet);
-
+                finish();
             }
 
         }

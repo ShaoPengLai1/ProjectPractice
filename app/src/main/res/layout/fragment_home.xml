@@ -113,7 +113,7 @@
                             android:background="@mipmap/bg_rxxp_syf"
                             />
                         <ImageView
-                            android:id="@+id/con_icon1"
+                            android:id="@+id/point_re"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/common_btn_more_yellow_n_hdpi"
@@ -157,6 +157,7 @@
                             android:textColor="#00ffdf"
                             />
                         <ImageView
+                            android:id="@+id/point_mo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/home_btn_more_purple_n_hdpi"
@@ -198,6 +199,7 @@
                             android:textColor="#ffd000"
                             />
                         <ImageView
+                            android:id="@+id/point_pin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/home_btn_more_purple_n_hdpi"
@@ -217,6 +219,45 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+    <TextView
+        android:id="@+id/res"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_30"
+        android:background="@mipmap/bg_rxxp_syf"
+        android:text="热销新品"
+        android:textColor="#ff7f57"
+        android:visibility="gone"
+        android:layout_below="@+id/fow_viewpager"
+        android:gravity="center"
+        android:textSize="@dimen/sp_16"
+        />
+    <TextView
+        android:id="@+id/mos"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@mipmap/bg_mlss_syf"
+        android:text="魔力时尚"
+        android:textColor="#90f"
+        android:visibility="gone"
+        android:layout_below="@+id/recy_re"
+        android:gravity="center"
+        android:textSize="@dimen/sp_16"
+        />
+    <TextView
+        android:id="@+id/pins"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@mipmap/bg_pzsh_syf"
+        android:text="品质生活"
+        android:textColor="#ff88c2"
+        android:visibility="gone"
+        android:layout_below="@+id/recy_mo"
+        android:gravity="center"
+        android:textSize="@dimen/sp_16"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/byName"
         android:layout_width="match_parent"

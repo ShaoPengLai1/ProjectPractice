@@ -79,8 +79,8 @@ public class AllordersPage extends Fragment implements IView {
     }
 
     private void loadData() {
-        iPresenter.startRequestGet(Apis.URL_FIND_ORDER_LIST_BYSTATUS_GET
-                +"?status="+"0"+"&page="+"1"+"&count=5",null,AlldorInfoByStatusBean.class);
+//        iPresenter.startRequestGet(Apis.URL_FIND_ORDER_LIST_BYSTATUS_GET
+//                +"?status="+"0"+"&page="+"1"+"&count=5",null,AlldorInfoByStatusBean.class);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class AllordersPage extends Fragment implements IView {
             if (bean==null){
                 Toast.makeText(getActivity(),bean.getMessage(),Toast.LENGTH_LONG).show();
             }else {
-                adapter.setmList(bean.getResult().getDetailList());
+                //adapter.setmList(bean.getResult().getDetailList());
             }
         }
     }

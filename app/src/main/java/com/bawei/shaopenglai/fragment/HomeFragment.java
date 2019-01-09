@@ -75,8 +75,6 @@ public class HomeFragment extends Fragment implements IView {
     XBanner xbannerHome;
     @BindView(R.id.con_tv)
     TextView conTv;
-    @BindView(R.id.con_icon1)
-    ImageView conIcon1;
     @BindView(R.id.recy_re)
     RecyclerView recyRe;
     @BindView(R.id.con_tv2)
@@ -91,6 +89,18 @@ public class HomeFragment extends Fragment implements IView {
     RecyclerView byName;
     @BindView(R.id.scroll)
     ScrollView scroll;
+    @BindView(R.id.res)
+    TextView res;
+    @BindView(R.id.mos)
+    TextView mos;
+    @BindView(R.id.pins)
+    TextView pins;
+    @BindView(R.id.point_re)
+    ImageView pointRe;
+    @BindView(R.id.point_mo)
+    ImageView pointMo;
+    @BindView(R.id.point_pin)
+    ImageView pointPin;
     private PopupWindow popupWindow;
     private TopHomeAdapter adapter;
     private IPresenterImpl iPresenter;
@@ -102,6 +112,7 @@ public class HomeFragment extends Fragment implements IView {
     private PinAdapter pinAdapter;
     private ByNameAdapter byNameAdapter;
     private BottomTasBean bottomTasBean;
+    private String id;
 
     @Nullable
     @Override
@@ -147,7 +158,7 @@ public class HomeFragment extends Fragment implements IView {
     }
 
 
-    @OnClick({R.id.home_icon, R.id.home_ed, R.id.home_search, R.id.home_tv})
+    @OnClick({R.id.home_icon, R.id.home_ed, R.id.home_search, R.id.home_tv,R.id.point_re, R.id.point_mo, R.id.point_pin})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.home_icon:
@@ -164,12 +175,37 @@ public class HomeFragment extends Fragment implements IView {
                     homeTv.setVisibility(View.GONE);
                     homeEd.setVisibility(View.INVISIBLE);
                 } else {
-                    iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYKEYWORD_GET + "?keyword=" + homeEd.getText().toString() + "&page=" + "1" + "&count=5", null, ByName.class);
+                    iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYKEYWORD_GET
+                                    + "?keyword=" + homeEd.getText().toString() + "&page=" + "1" + "&count=5",
+                            null, ByName.class);
                 }
+                break;
+            case R.id.point_re:
+                res.setVisibility(View.VISIBLE);
+                id="1002";
+                getData(id);
+                backPage();
+                break;
+            case R.id.point_mo:
+                mos.setVisibility(View.VISIBLE);
+                id = "1003";
+                getData(id);
+                backPage();
+                break;
+            case R.id.point_pin:
+                pins.setVisibility(View.VISIBLE);
+                id="1004";
+                getData(id);
+                backPage();
                 break;
             default:
                 break;
         }
+    }
+
+    private void getData(String id) {
+        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_LIST_BYLABEL_GET
+                        +"?labelId="+id+"&page=1&count=8",null, ByName.class);
     }
 
     /**
@@ -181,7 +217,8 @@ public class HomeFragment extends Fragment implements IView {
         RecyclerView topView = v.findViewById(R.id.recycle_top);
         adapter = new TopHomeAdapter(getActivity());
         //一级条目布局管理器
-        topView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        topView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         topView.setAdapter(adapter);
         //设置条目之间的间距
         AppinfoiItemDecoration decoration = new AppinfoiItemDecoration();
@@ -189,7 +226,8 @@ public class HomeFragment extends Fragment implements IView {
         //加载下面的布局的RecyclerView
         RecyclerView bottomView = v.findViewById(R.id.recycle_bottom);
         botmViewHolder = new BottomHomeAdapter(getActivity());
-        bottomView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        bottomView.setLayoutManager(new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.HORIZONTAL, false));
         bottomView.setAdapter(botmViewHolder);
         bottomView.addItemDecoration(decoration);
         //设置popupWindow
@@ -215,7 +253,8 @@ public class HomeFragment extends Fragment implements IView {
                     @Override
                     public void setonclicklisener(int index) {
                         String id1 = bottomTasBean.getResult().get(index).getId();
-                        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYCATEGORY_GET+"?categoryId="+id1+"&page=1&count=10",null,ByIdBean.class);
+                        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_BYCATEGORY_GET
+                                + "?categoryId=" + id1 + "&page=1&count=10", null, ByIdBean.class);
                     }
                 });
             }
@@ -268,7 +307,7 @@ public class HomeFragment extends Fragment implements IView {
                     mImgUrl.add(xBannerBeans.getResult().get(i).getImageUrl());
                     //加载图片
                     initImageData();
-                    iPresenter.startRequestGet(Apis.URL_COMMODITY_LIST_GET,null,HomeBean.class);
+                    iPresenter.startRequestGet(Apis.URL_COMMODITY_LIST_GET, null, HomeBean.class);
                 }
             }
         }
@@ -284,28 +323,33 @@ public class HomeFragment extends Fragment implements IView {
             hotAdapter.result(new TopHomeAdapter.Cicklistener() {
                 @Override
                 public void setonclicklisener(int index) {
-                    int commodityId = homeBean.getResult().getRxxp().get(0).getCommodityList().get(index).getCommodityId();
+                    int commodityId = homeBean.getResult().getRxxp().get(0).
+                            getCommodityList().get(index).getCommodityId();
                     getGoods(commodityId);
                 }
             });
             moAdapter.result(new TopHomeAdapter.Cicklistener() {
                 @Override
                 public void setonclicklisener(int index) {
-                    int commodityId = homeBean.getResult().getMlss().get(0).getCommodityList().get(index).getCommodityId();
+                    int commodityId = homeBean.getResult().getMlss().get(0).
+                            getCommodityList().get(index).getCommodityId();
                     getGoods(commodityId);
                 }
             });
             pinAdapter.result(new TopHomeAdapter.Cicklistener() {
                 @Override
                 public void setonclicklisener(int index) {
-                    int commodityId = homeBean.getResult().getPzsh().get(0).getCommodityList().get(index).getCommodityId();
+                    int commodityId = homeBean.getResult().getPzsh().get(0).
+                            getCommodityList().get(index).getCommodityId();
                     getGoods(commodityId);
                 }
             });
 
 
-
         }
+        /**
+         * 根据类型商品名称查询
+         */
         if (data instanceof ByName) {
             final ByName byNames = (ByName) data;
             scroll.setVisibility(View.GONE);
@@ -317,15 +361,23 @@ public class HomeFragment extends Fragment implements IView {
                     getGoods(byNames.getResult().get(index).getCommodityId());
                 }
             });
+            if (id=="1002"){
+                res.setVisibility(View.VISIBLE);
+            }else if (id=="1003"){
+                mos.setVisibility(View.VISIBLE);
+            }else if (id=="1004") {
+                pins.setVisibility(View.VISIBLE);
+            }
+            backPage();
         }
 
-        if (data instanceof ByIdBean){
-            final ByIdBean byIdBean= (ByIdBean) data;
+        if (data instanceof ByIdBean) {
+            final ByIdBean byIdBean = (ByIdBean) data;
             scroll.setVisibility(View.GONE);
             byName.setVisibility(View.VISIBLE);
-            ByIdAdapter byIdAdapter=new ByIdAdapter(getActivity());
+            ByIdAdapter byIdAdapter = new ByIdAdapter(getActivity());
             byName.setAdapter(byIdAdapter);
-            List<ByIdBean.ResultBean> result=byIdBean.getResult();
+            List<ByIdBean.ResultBean> result = byIdBean.getResult();
             byIdAdapter.setData(result);
             byIdAdapter.result(new TopHomeAdapter.Cicklistener() {
                 @Override
@@ -335,9 +387,9 @@ public class HomeFragment extends Fragment implements IView {
             });
 
         }
-        if (data instanceof GoodsBean){
-            EventBus.getDefault().postSticky(new EventBean("goods",data));
-            startActivity(new Intent(getActivity(),GoodsActivity.class));
+        if (data instanceof GoodsBean) {
+            EventBus.getDefault().postSticky(new EventBean("goods", data));
+            startActivity(new Intent(getActivity(), GoodsActivity.class));
         }
     }
 
@@ -360,13 +412,22 @@ public class HomeFragment extends Fragment implements IView {
         xbannerHome.setPageChangeDuration(0);
     }
 
+    /**
+     * 失败方法吐司
+     * @param error
+     */
     @Override
     public void getDataFail(String error) {
         Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
-    private void getGoods(int id){
-        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET+"?commodityId="+id,null,GoodsBean.class);
+    /**
+     * 商品接口请求
+     * @param id
+     */
+    private void getGoods(int id) {
+        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET
+                + "?commodityId=" + id, null, GoodsBean.class);
     }
 
     //解绑，防止内存泄漏
@@ -375,5 +436,43 @@ public class HomeFragment extends Fragment implements IView {
         super.onDestroy();
         iPresenter.onDetach();
     }
+
+    /**
+     * 设置返回的监听
+     */
+    private long exitTime = 0;
+
+    private void backPage() {
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                scroll.setVisibility(View.VISIBLE);
+                byName.setVisibility(View.GONE);
+
+                if (i == KeyEvent.KEYCODE_BACK && keyEvent.getAction() == KeyEvent.ACTION_UP) {
+                    scroll.setVisibility(View.VISIBLE);
+                    byName.setVisibility(View.GONE);
+                    res.setVisibility(View.GONE);
+                    mos.setVisibility(View.GONE);
+                    pins.setVisibility(View.GONE);
+                    if (System.currentTimeMillis() - exitTime > 2000) {
+                        exitTime = System.currentTimeMillis();
+                    } else {
+                        //启动一个意图,回到桌面
+                        Intent backHome = new Intent(Intent.ACTION_MAIN);
+                        backHome.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        backHome.addCategory(Intent.CATEGORY_HOME);
+                        startActivity(backHome);
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    }
+
 
 }

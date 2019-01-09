@@ -1,9 +1,7 @@
 package com.bawei.shaopenglai.ui;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
@@ -17,13 +15,15 @@ import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.AddShopping;
 import com.bawei.shaopenglai.bean.GoodsBean;
-import com.bawei.shaopenglai.custom.Constants;
+import com.bawei.shaopenglai.bean.ShoppingCarBean;
+import com.bawei.shaopenglai.bean.ShoppingBean;
 import com.bawei.shaopenglai.custom.CustomJiaJian;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.custom.MyDialog;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
 import com.bumptech.glide.Glide;
+import com.nostra13.universalimageloader.utils.L;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
@@ -31,6 +31,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GoodsActivity extends AppCompatActivity{
+public class GoodsActivity extends AppCompatActivity implements IView{
 
     @BindView(R.id.back)
     ImageView back;
@@ -62,14 +63,15 @@ public class GoodsActivity extends AppCompatActivity{
     ImageView shopBuy;
     private GoodsBean goodsBean;
     private MyDialog myDialog;
-
+    private IPresenterImpl iPresenter;
+    private int commodityId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
         ButterKnife.bind(this);
-
+        iPresenter=new IPresenterImpl(this);
     }
 
     @Override
@@ -82,6 +84,7 @@ public class GoodsActivity extends AppCompatActivity{
     public void onEvent(EventBean evBean) {
         if (evBean.getName().equals("goods")) {
             goodsBean = (GoodsBean) evBean.getClazz();
+            commodityId=goodsBean.getResult().getCommodityId();
             load();
         }
     }
@@ -116,17 +119,17 @@ public class GoodsActivity extends AppCompatActivity{
                 Button cancel=v.findViewById(R.id.cancel);
                 final CustomJiaJian customJiaJian = v.findViewById(R.id.customjiajian);
                 final EditText count=customJiaJian.findViewById(R.id.count);
-                String[] split = goodsBean.getResult().getPicture().split("\\|");
                 recycle_title.setText(goodsBean.getResult().getCommodityName());
                 recycle_price.setText("￥" + goodsBean.getResult().getPrice()+"");
                 production.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        EventBean mDialog = new EventBean("myDialog", goodsBean);
-                        String s = count.getText().toString();
-                        mDialog.setNum(Integer.parseInt(s));
-                        EventBus.getDefault().postSticky(myDialog);
+//                        EventBean mDialog = new EventBean("myDialog", goodsBean);
+//                        String s = count.getText().toString();
+//                        mDialog.setNum(Integer.parseInt(s));
+//                        EventBus.getDefault().postSticky(myDialog);
+                        selShopCar();
                         myDialog.dismiss();
                     }
                 });
@@ -138,12 +141,65 @@ public class GoodsActivity extends AppCompatActivity{
                 });
                 myDialog.setCancelable(true);
                 myDialog.show();
+                //selShopCar();
                 break;
             case R.id.shopBuy:
                 break;
         }
     }
 
+    private void selShopCar() {
+
+        iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,ShoppingBean.class);
+    }
+
+    @Override
+    public void getDataSuccess(Object data) {
+        if(data instanceof ShoppingBean){
+            ShoppingBean shoppingBean= (ShoppingBean) data;
+            if(shoppingBean.getMessage().equals("查询成功")){
+                List<ShoppingCarBean> list=new ArrayList<>();
+                List<ShoppingBean.ResultBean> result =  shoppingBean.getResult();
+                for(ShoppingBean.ResultBean results:result){
+                    list.add(new ShoppingCarBean(results.getCommodityId(),results.getCount()));
+                }
+                addShopCar(list);
+            }
+        }
+        if (data instanceof AddShopping){
+            AddShopping addShopping= (AddShopping) data;
+            Toast.makeText(GoodsActivity.this,addShopping.getMessage(),Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void addShopCar(List<ShoppingCarBean> list) {
+        String string="[";
+        for (int i=0;i<list.size();i++){
+            if(commodityId==list.get(i).getCommodityId()){
+                int count = list.get(i).getCount();
+                count++;
+                list.get(i).setCount(count);
+                break;
+            }else if(i==list.size()-1){
+                list.add(new ShoppingCarBean(commodityId,1));
+                break;
+            }
+        }
+        for (ShoppingCarBean resultBean:list){
+            string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
+        }
+        String substring = string.substring(0, string.length() - 1);
+        substring+="]";
+
+        Map<String,String> map=new HashMap<>();
+        map.put("data",substring);
+        iPresenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT,map,AddShopping.class);
+    }
+
+    @Override
+    public void getDataFail(String error) {
+        Toast.makeText(GoodsActivity.this,error,Toast.LENGTH_LONG).show();
+    }
 
 
     private class GlideImageLoader extends ImageLoader {

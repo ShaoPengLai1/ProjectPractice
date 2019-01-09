@@ -102,6 +102,8 @@ public class MineFragment extends Fragment implements IView {
                 break;
             case R.id.personaldata:
                 Intent intent=new Intent(getActivity(),PersonalInformationActivity.class);
+                intent.putExtra("Name",loginbean.getResult().getNickName());
+                intent.putExtra("headIcon",loginbean.getResult().getHeadPic());
                 startActivity(intent);
                 break;
             case R.id.mycircle:
@@ -114,6 +116,9 @@ public class MineFragment extends Fragment implements IView {
                 break;
             case R.id.shippingaddress:
                 Intent intent5=new Intent(getActivity(),CityListActivity.class);
+
+                intent5.putExtra("nickName",loginbean.getResult().getNickName());
+                intent5.putExtra("phone",loginbean.getResult().getPhone());
                 startActivity(intent5);
                 break;
             case R.id.mine_icon:
