@@ -73,6 +73,7 @@ public class GoodsActivity extends AppCompatActivity implements IView{
         setContentView(R.layout.activity_goods);
         ButterKnife.bind(this);
         iPresenter=new IPresenterImpl(this);
+
     }
 
     @Override
