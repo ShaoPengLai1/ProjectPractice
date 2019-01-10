@@ -20,6 +20,13 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/shopping_but_addr"
         />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/addAddress"
+        android:visibility="gone"
+        />
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -88,6 +95,7 @@
             android:layout_toRightOf="@id/allordersPrice"
             />
         <TextView
+            android:id="@+id/tjdd"
             android:layout_width="@dimen/dp_100"
             android:layout_height="@dimen/dp_50"
             android:layout_alignParentRight="true"

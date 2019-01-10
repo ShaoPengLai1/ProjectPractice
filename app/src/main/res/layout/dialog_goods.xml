@@ -57,13 +57,7 @@
                 android:gravity="center"
                 android:layout_toRightOf="@id/recycle_icon"
                 />
-            <com.bawei.shaopenglai.custom.CustomJiaJian
-                android:id="@+id/customjiajian"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_20"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                ></com.bawei.shaopenglai.custom.CustomJiaJian>
+
         </RelativeLayout>
 
         <View

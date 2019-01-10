@@ -61,13 +61,15 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shaopping_car, container, false);
         unbinder = ButterKnife.bind(this, view);
+        iPresenter=new IPresenterImpl(this);
+        loadData();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        iPresenter=new IPresenterImpl(this);
+
         shoppingAdapter=new MyShoppingAdapter(getActivity());
         recyclerView.setAdapter(shoppingAdapter);
         //1为不选中
@@ -109,18 +111,6 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
         });
         loadData();
     }
-
-    /*private void totalMoney() {
-        int money=0;
-        for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
-            if (showShoppingBean.getResult().get(i).isItem_check()){
-                money+=showShoppingBean.getResult().get(i).getPrice()*showShoppingBean.getResult().get(i).getCount();
-            }
-
-        }
-        totalPrice.setText("￥"+money+"");
-    }*/
-
     private void loadData() {
         iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,ShowShoppingBean.class);
     }
@@ -171,6 +161,7 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
         switch (view.getId()) {
 
             case R.id.qjs:
+
                 Intent intent = new Intent(getActivity(), TJDDActivity.class);
                 startActivity(intent);
                 break;

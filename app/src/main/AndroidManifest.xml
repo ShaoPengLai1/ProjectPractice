@@ -23,9 +23,10 @@
         <activity android:name=".ShoppingTrolleyActivity" />
         <activity android:name=".ui.mineui.PersonalInformationActivity" />
         <activity android:name=".ui.mineui.MyGroupActivity" />
-        <activity android:name=".ui.mineui.CityListActivity"/>
+        <activity android:name=".ui.mineui.CityListActivity" />
         <activity android:name=".ui.shopping.TJDDActivity" />
-        <activity android:name=".ui.GoodsActivity"></activity>
+        <activity android:name=".ui.GoodsActivity" />
+        <activity android:name=".ui.mineui.AddAddressActivity"></activity>
     </application>
 
 </manifest>

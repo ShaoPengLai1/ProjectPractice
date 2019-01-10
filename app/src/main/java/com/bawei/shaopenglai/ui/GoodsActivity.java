@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,14 +95,25 @@ public class GoodsActivity extends AppCompatActivity implements IView{
         String picture = goodsBean.getResult().getPicture();
         String[] split = picture.split(",");
         List<String> list = Arrays.asList(split);
-        webview.loadDataWithBaseURL(null, details, "text/html", "utf-8", null);
+        //webview.loadDataWithBaseURL(null, details, "text/html", "utf-8", null);
+
+
         banner.setImageLoader(new GlideImageLoader());
         banner.setImages(list);
         banner.start();
         price.setText("￥" + goodsBean.getResult().getPrice() + "");
         commodityName.setText(goodsBean.getResult().getCommodityName());
         weight.setText(goodsBean.getResult().getWeight() + "kg");
-
+        WebSettings settings = webview.getSettings();
+        settings.setJavaScriptEnabled(true);//支持JS
+        String js = "<script type=\"text/javascript\">"+
+                "var imgs = document.getElementsByTagName('img');" + // 找到img标签
+                "for(var i = 0; i<imgs.length; i++){" +  // 逐个改变
+                "imgs[i].style.width = '100%';" +  // 宽度改为100%
+                "imgs[i].style.height = 'auto';" +
+                "}" +
+                "</script>";
+        webview.loadDataWithBaseURL(null, details+js, "text/html", "utf-8", null);
     }
 
     @OnClick({R.id.shopAdd, R.id.shopBuy})
@@ -117,8 +129,8 @@ public class GoodsActivity extends AppCompatActivity implements IView{
                 TextView recycle_title = v.findViewById(R.id.recycle_title);
                 Button production=v.findViewById(R.id.production);
                 Button cancel=v.findViewById(R.id.cancel);
-                final CustomJiaJian customJiaJian = v.findViewById(R.id.customjiajian);
-                final EditText count=customJiaJian.findViewById(R.id.count);
+                //final CustomJiaJian customJiaJian = v.findViewById(R.id.customjiajian);
+                //final EditText count=customJiaJian.findViewById(R.id.count);
                 recycle_title.setText(goodsBean.getResult().getCommodityName());
                 recycle_price.setText("￥" + goodsBean.getResult().getPrice()+"");
                 production.setOnClickListener(new View.OnClickListener() {
@@ -174,17 +186,23 @@ public class GoodsActivity extends AppCompatActivity implements IView{
 
     private void addShopCar(List<ShoppingCarBean> list) {
         String string="[";
-        for (int i=0;i<list.size();i++){
-            if(commodityId==list.get(i).getCommodityId()){
-                int count = list.get(i).getCount();
-                count++;
-                list.get(i).setCount(count);
-                break;
-            }else if(i==list.size()-1){
-                list.add(new ShoppingCarBean(commodityId,1));
-                break;
+        if (list.size()==0){
+            //如果取出来的数据为空，则直接添加数据
+            list.add(new ShoppingCarBean(commodityId,1));
+        }else {
+            for (int i=0;i<list.size();i++){
+                if(commodityId==list.get(i).getCommodityId()){
+                    int count = list.get(i).getCount();
+                    count++;
+                    list.get(i).setCount(count);
+                    break;
+                }else if(i==list.size()-1){
+                    list.add(new ShoppingCarBean(commodityId,1));
+                    break;
+                }
             }
         }
+
         for (ShoppingCarBean resultBean:list){
             string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
         }

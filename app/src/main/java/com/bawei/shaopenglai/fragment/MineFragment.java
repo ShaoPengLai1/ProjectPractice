@@ -1,6 +1,7 @@
 package com.bawei.shaopenglai.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import com.bawei.shaopenglai.bean.Loginbean;
 import com.bawei.shaopenglai.bean.MineBean;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
+import com.bawei.shaopenglai.ui.mineui.AddAddressActivity;
 import com.bawei.shaopenglai.ui.mineui.CityListActivity;
 import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
 import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
@@ -35,6 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * @author Peng
@@ -60,7 +64,8 @@ public class MineFragment extends Fragment implements IView {
     Unbinder unbinder;
     private IPresenterImpl iPresenter;
     private Loginbean loginbean;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Nullable
     @Override
@@ -81,6 +86,9 @@ public class MineFragment extends Fragment implements IView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         iPresenter=new IPresenterImpl(this);
+        sharedPreferences=getActivity().getSharedPreferences("Address",MODE_PRIVATE);
+        editor=sharedPreferences.edit();
+
         loadData();
 
     }
@@ -115,10 +123,11 @@ public class MineFragment extends Fragment implements IView {
             case R.id.Wallet:
                 break;
             case R.id.shippingaddress:
-                Intent intent5=new Intent(getActivity(),CityListActivity.class);
+                Intent intent5=new Intent(getActivity(),AddAddressActivity.class);
+                editor.putString("nickName",loginbean.getResult().getNickName());
+                editor.putString("phone",loginbean.getResult().getPhone());
 
-                intent5.putExtra("nickName",loginbean.getResult().getNickName());
-                intent5.putExtra("phone",loginbean.getResult().getPhone());
+                editor.commit();
                 startActivity(intent5);
                 break;
             case R.id.mine_icon:

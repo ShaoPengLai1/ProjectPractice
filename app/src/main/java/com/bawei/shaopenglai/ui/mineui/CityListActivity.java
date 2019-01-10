@@ -1,20 +1,33 @@
 package com.bawei.shaopenglai.ui.mineui;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
+import com.bawei.shaopenglai.api.Apis;
+import com.bawei.shaopenglai.bean.AddAddrBean;
+import com.bawei.shaopenglai.custom.Constants;
+import com.bawei.shaopenglai.presenter.IPresenterImpl;
+import com.bawei.shaopenglai.ui.GoodsActivity;
+import com.bawei.shaopenglai.view.IView;
 import com.lljjcoder.citypickerview.widget.CityPicker;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CityListActivity extends AppCompatActivity {
+public class CityListActivity extends AppCompatActivity implements IView {
 
     @BindView(R.id.myName)
     TextView myName;
@@ -40,12 +53,32 @@ public class CityListActivity extends AppCompatActivity {
     TextView nickname;
     @BindView(R.id.myPhone)
     TextView myPhone;
+    @BindView(R.id.iangxicity)
+    TextView iangxicity;
+    @BindView(R.id.dizhi)
+    TextView dizhi;
+    @BindView(R.id.viewsix)
+    View viewsix;
+    @BindView(R.id.addSubmit)
+    Button addSubmit;
+    @BindView(R.id.newName)
+    EditText newName;
+    @BindView(R.id.newPhone)
+    EditText newPhone;
+    @BindView(R.id.newAddr)
+    EditText newAddr;
     private CityPicker cityPicker;
     private String province;
     private String city;
     private String district;
     private String code;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private String mAddr;
+    private String mYb;
+    private String name;
+    private String phone;
+    private IPresenterImpl iPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +89,11 @@ public class CityListActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        adresss = (TextView) findViewById(R.id.adresss);
+        iPresenter = new IPresenterImpl(this);
+
+
+        sharedPreferences = getSharedPreferences("Address", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         adresss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,12 +101,113 @@ public class CityListActivity extends AppCompatActivity {
                 cityPicker.show();
             }
         });
-        Intent intent=getIntent();
-        String Name = intent.getStringExtra("nickName");
-        String phone = intent.getStringExtra("phone");
-        nickname.setText(Name);
-        myPhone.setText(phone);
 
+        name = sharedPreferences.getString("nickName", null);
+        phone = sharedPreferences.getString("phone", null);
+        mAddr = sharedPreferences.getString("address", null);
+        mYb = sharedPreferences.getString("youxiao", null);
+        nickname.setText(name);
+        myPhone.setText(phone);
+        adresss.setText(mAddr);
+        youxiao.setText(mYb);
+        addSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String s = adresss.getText().toString();
+                String s1 = youxiao.getText().toString();
+                editor.putString("address", s);
+                editor.putString("youxiao", s1);
+                editor.commit();
+                loadData();
+                finish();
+            }
+        });
+        dizhi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newAddr.setVisibility(View.VISIBLE);
+                String mNewAddr = newAddr.getText().toString();
+                dizhi.setText(mNewAddr);
+            }
+        });
+        nickname.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newName.setVisibility(View.VISIBLE);
+                String mNewName = newName.getText().toString();
+                nickname.setText(mNewName);
+            }
+        });
+        newName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+
+                } else {
+                    // 此处为失去焦点时的处理内容
+                    newName.setVisibility(View.GONE);
+                    nickname.setVisibility(View.VISIBLE);
+                    nickname.setText(newName.getText().toString());
+                }
+            }
+        });
+        newPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+
+                } else {
+                    // 此处为失去焦点时的处理内容
+                    newPhone.setVisibility(View.GONE);
+                    myPhone.setVisibility(View.VISIBLE);
+                    myPhone.setText(newPhone.getText().toString());
+                }
+            }
+        });
+        newAddr.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+
+                } else {
+                    // 此处为失去焦点时的处理内容
+                    newAddr.setVisibility(View.GONE);
+                    adresss.setVisibility(View.VISIBLE);
+                    adresss.setText(newAddr.getText().toString());
+                }
+            }
+        });
+        myPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newPhone.setVisibility(View.VISIBLE);
+                String mNewPhone = newPhone.getText().toString();
+
+
+                myPhone.setText(mNewPhone);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+    }
+
+    private void loadData() {
+        Map<String, String> map = new HashMap<>();
+        map.put(Constants.URAL_ADD_SHOPPING_REALNAME, nickname.getText().toString());
+        map.put(Constants.POST_BODY_KEY_LOGIN_PHONE, myPhone.getText().toString());
+        map.put(Constants.URAL_ADD_SHOPPING_ADDRESS, adresss.getText().toString());
+        map.put(Constants.URAL_ADD_SHOPPING_ZIPCODE, youxiao.getText().toString());
+        iPresenter.startRequestPost(Apis.URL_ADD_RECEIVE_ADDRESS_POST, map, AddAddrBean.class);
     }
 
     private void initCityPicker() {
@@ -121,6 +259,7 @@ public class CityListActivity extends AppCompatActivity {
                 code = citySelected[3];
                 adresss.setText(province + city + district);
                 youxiao.setText(code);
+                editor.commit();
             }
 
             @Override
@@ -132,4 +271,46 @@ public class CityListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void getDataSuccess(Object data) {
+        if (data instanceof AddAddrBean){
+            AddAddrBean addrBean= (AddAddrBean) data;
+            if (addrBean==null){
+                Toast.makeText(CityListActivity.this,addrBean.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void getDataFail(String error) {
+        Toast.makeText(CityListActivity.this,error,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        iPresenter.onDetach();
+    }
+
+//    dispatchTouchEvent
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            // 获取当前焦点所在的控件；
+            View view = getCurrentFocus();
+            if (view != null && view instanceof EditText) {
+                Rect r = new Rect();
+                view.getGlobalVisibleRect(r);
+                int rawX = (int) ev.getRawX();
+                int rawY = (int) ev.getRawY();
+                // 判断点击的点是否落在当前焦点所在的 view 上；
+                if (!r.contains(rawX, rawY)) {
+                    view.clearFocus();
+                }
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

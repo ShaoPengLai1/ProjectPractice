@@ -48,6 +48,13 @@
             app:layout_constraintBottom_toBottomOf="@id/myName"
 
             />
+        <EditText
+            android:id="@+id/newName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_50"
+            android:visibility="gone"
+            />
         <View
             android:id="@+id/viewTwo"
             android:layout_width="match_parent"
@@ -76,6 +83,14 @@
             android:text="1234567896"
             app:layout_constraintBottom_toBottomOf="@id/myPassword"
             />
+        <EditText
+            android:id="@+id/newPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_50"
+            app:layout_constraintBottom_toBottomOf="@id/viewThree"
+            android:visibility="gone"
+            />
         <View
             android:id="@+id/viewThree"
             android:layout_width="match_parent"
@@ -96,14 +111,14 @@
             app:layout_constraintTop_toBottomOf="@id/viewThree"
             android:layout_marginTop="@dimen/dp_10"
             />
+
         <TextView
             android:id="@+id/adresss"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            android:text="1234567896"
+            android:text="北京市海淀区"
             app:layout_constraintBottom_toBottomOf="@id/mycity"
-            />
+            app:layout_constraintRight_toRightOf="parent" />
         <View
             android:id="@+id/viewFour"
             android:layout_width="match_parent"
@@ -113,7 +128,7 @@
             android:layout_marginTop="@dimen/dp_10"
             />
         <TextView
-            android:id="@+id/myXiangxicity"
+            android:id="@+id/iangxicity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="详细地址"
@@ -124,28 +139,73 @@
             app:layout_constraintTop_toBottomOf="@id/viewFour"
             android:layout_marginTop="@dimen/dp_10"
             />
+        <EditText
+            android:id="@+id/newAddr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_50"
+            app:layout_constraintBottom_toBottomOf="@id/viewFive"
+            android:visibility="gone"
+            />
         <TextView
-            android:id="@+id/youxiao"
+            android:id="@+id/dizhi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintRight_toRightOf="parent"
-            android:text="1234567896"
-            app:layout_constraintBottom_toBottomOf="@id/myXiangxicity"
+            android:text="上地七街北京八维研修学院"
+            app:layout_constraintBottom_toBottomOf="@id/iangxicity"
+            />
+        <TextView
+            android:id="@+id/myXiangxicity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邮政编码"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/text_color_six"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginBottom="@dimen/dp_10"
+            app:layout_constraintTop_toBottomOf="@id/viewFive"
+            android:layout_marginTop="@dimen/dp_10"
             />
         <View
             android:id="@+id/viewFive"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_1"
             android:background="@drawable/shape_text_mine"
-            app:layout_constraintTop_toBottomOf="@id/myXiangxicity"
+            app:layout_constraintTop_toBottomOf="@id/iangxicity"
+            android:layout_marginTop="@dimen/dp_10"
+            />
+        <TextView
+            android:id="@+id/youxiao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="001000"
+            app:layout_constraintBottom_toBottomOf="@id/myXiangxicity"
+            />
+        <View
+            android:id="@+id/viewsix"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:background="@drawable/shape_text_mine"
+            app:layout_constraintTop_toBottomOf="@id/youxiao"
             android:layout_marginTop="@dimen/dp_10"
             />
 
     </android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/addSubmit"
+        android:layout_width="@dimen/dp_116"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_100"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_add_addr"
+        android:textColor="@color/white"
+        android:text="保存并使用"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/dp_100"
         />
 
 </LinearLayout>
