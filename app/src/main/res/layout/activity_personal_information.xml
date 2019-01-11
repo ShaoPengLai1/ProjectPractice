@@ -42,8 +42,11 @@
             android:layout_height="@dimen/dp_30"
             app:roundAsCircle="true"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="#f00"
-            />
+            app:actualImageScaleType="centerCrop"
+            app:roundingBorderColor="#fff3cf44"
+            app:fadeDuration="3000"
+            app:roundingBorderWidth="2dp"/>
+
         <View
             android:id="@+id/icon_view"
             android:layout_width="match_parent"

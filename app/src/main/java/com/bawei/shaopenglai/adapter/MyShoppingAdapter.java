@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,6 +65,8 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
                 }
             }
         });
+        EditText count=((ViewHolder) viewHolder).cus_view.findViewById(R.id.count);
+        count.setText(mlist.get(i).getCount()+"");
         holder.cus_view.setCustomListener(new CustomJiaJian.CustomListener() {
             @Override
             public void jiajian(int count) {

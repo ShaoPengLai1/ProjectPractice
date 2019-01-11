@@ -2,6 +2,7 @@ package com.bawei.shaopenglai.fragment;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,23 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.GoodsBean;
 import com.bawei.shaopenglai.bean.Loginbean;
-import com.bawei.shaopenglai.bean.MineBean;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.mineui.AddAddressActivity;
-import com.bawei.shaopenglai.ui.mineui.CityListActivity;
+import com.bawei.shaopenglai.ui.mineui.MainFootActivity;
+import com.bawei.shaopenglai.ui.mineui.MineMoneyActivity;
 import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
 import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
 import com.bawei.shaopenglai.view.IView;
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -59,9 +59,10 @@ public class MineFragment extends Fragment implements IView {
     TextView Wallet;
     @BindView(R.id.shippingaddress)
     TextView shippingaddress;
-    @BindView(R.id.mine_icon)
-    ImageView mineIcon;
+
     Unbinder unbinder;
+    @BindView(R.id.mine_icon)
+    SimpleDraweeView mineIcon;
     private IPresenterImpl iPresenter;
     private Loginbean loginbean;
     private SharedPreferences sharedPreferences;
@@ -85,9 +86,9 @@ public class MineFragment extends Fragment implements IView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        iPresenter=new IPresenterImpl(this);
-        sharedPreferences=getActivity().getSharedPreferences("Address",MODE_PRIVATE);
-        editor=sharedPreferences.edit();
+        iPresenter = new IPresenterImpl(this);
+        sharedPreferences = getActivity().getSharedPreferences("Address", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         loadData();
 
@@ -109,23 +110,27 @@ public class MineFragment extends Fragment implements IView {
             case R.id.nickname:
                 break;
             case R.id.personaldata:
-                Intent intent=new Intent(getActivity(),PersonalInformationActivity.class);
-                intent.putExtra("Name",loginbean.getResult().getNickName());
-                intent.putExtra("headIcon",loginbean.getResult().getHeadPic());
+                Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
+                intent.putExtra("Name", loginbean.getResult().getNickName());
+                intent.putExtra("headIcon", loginbean.getResult().getHeadPic());
                 startActivity(intent);
                 break;
             case R.id.mycircle:
-                Intent intent1=new Intent(getActivity(),MyGroupActivity.class);
+                Intent intent1 = new Intent(getActivity(), MyGroupActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.footprint:
+                Intent intent3=new Intent(getActivity(),MainFootActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.Wallet:
+                Intent intent4=new Intent(getActivity(),MineMoneyActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.shippingaddress:
-                Intent intent5=new Intent(getActivity(),AddAddressActivity.class);
-                editor.putString("nickName",loginbean.getResult().getNickName());
-                editor.putString("phone",loginbean.getResult().getPhone());
+                Intent intent5 = new Intent(getActivity(), AddAddressActivity.class);
+                editor.putString("nickName", loginbean.getResult().getNickName());
+                editor.putString("phone", loginbean.getResult().getPhone());
 
                 editor.commit();
                 startActivity(intent5);
@@ -133,8 +138,8 @@ public class MineFragment extends Fragment implements IView {
             case R.id.mine_icon:
 
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
     }
 
@@ -145,7 +150,7 @@ public class MineFragment extends Fragment implements IView {
 
     @Override
     public void getDataFail(String error) {
-        Toast.makeText(getActivity(),error,Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -156,9 +161,11 @@ public class MineFragment extends Fragment implements IView {
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
     public void onEvent(EventBean evBean) {
-        if (evBean.getName().equals("main")){
+        if (evBean.getName().equals("main")) {
             loginbean = (Loginbean) evBean.getClazz();
-            Glide.with(getActivity()).load(loginbean.getResult().getHeadPic()).into(mineIcon);
+            Uri uri = Uri.parse(loginbean.getResult().getHeadPic());
+            mineIcon.setImageURI(uri);
+            //Glide.with(getActivity()).load(uri).into(mineIcon);
             nickname.setText(loginbean.getResult().getNickName());
         }
     }

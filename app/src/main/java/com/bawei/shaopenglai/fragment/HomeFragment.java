@@ -240,7 +240,8 @@ public class HomeFragment extends Fragment implements IView {
         //设置可触摸
         popupWindow.setTouchable(true);
         //设置位置
-        popupWindow.showAtLocation(v, Gravity.CENTER_VERTICAL, 0, -340);
+        popupWindow.showAsDropDown(v,0,0);
+        //popupWindow.showAtLocation(v, Gravity.CENTER_VERTICAL, 0, -340);
         loadData();
 
         adapter.result(new TopHomeAdapter.Cicklistener() {

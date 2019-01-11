@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bawei.shaopenglai.R;
@@ -51,6 +52,7 @@ public class AddrLstAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.adapterMyaddressTextPhone.setText(mList.get(i).getPhone());
         holder.adapterMyaddressTextAddress.setText(mList.get(i).getAddress());
         holder.adapterMyaddressRadioDefault.setChecked(false);
+
         holder.adapterMyaddressBtnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

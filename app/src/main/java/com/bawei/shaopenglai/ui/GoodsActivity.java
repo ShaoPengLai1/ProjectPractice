@@ -24,6 +24,7 @@ import com.bawei.shaopenglai.custom.MyDialog;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.utils.L;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
@@ -186,7 +187,7 @@ public class GoodsActivity extends AppCompatActivity implements IView{
     }
 
     private void addShopCar(List<ShoppingCarBean> list) {
-        String string="[";
+//        String string="[";
         if (list.size()==0){
             //如果取出来的数据为空，则直接添加数据
             list.add(new ShoppingCarBean(commodityId,1));
@@ -204,14 +205,14 @@ public class GoodsActivity extends AppCompatActivity implements IView{
             }
         }
 
-        for (ShoppingCarBean resultBean:list){
-            string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
-        }
-        String substring = string.substring(0, string.length() - 1);
-        substring+="]";
-
+//        for (ShoppingCarBean resultBean:list){
+//            string+="{\"commodityId\":"+resultBean.getCommodityId()+",\"count\":"+resultBean.getCount()+"},";
+//        }
+//        String substring = string.substring(0, string.length() - 1);
+//        substring+="]";
+        String s = new Gson().toJson(list);
         Map<String,String> map=new HashMap<>();
-        map.put("data",substring);
+        map.put("data",s);
         iPresenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT,map,AddShopping.class);
     }
 

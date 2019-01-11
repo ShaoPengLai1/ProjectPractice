@@ -66,7 +66,7 @@ public class RetrofitManager <T>{
     /**
      * get请求
      */
-    public RetrofitManager get(String url) {
+    public void get(String url,HttpListener listener) {
 
         mBaseApis.get(url)
                 //后台执行在哪个线程中
@@ -74,81 +74,84 @@ public class RetrofitManager <T>{
                 //最终完成后执行在哪个线程
                 .observeOn(AndroidSchedulers.mainThread())
                 //设置我们的rxJava
-                .subscribe(observer);
-
-        return mRetrofitManager;
+                .subscribe(getObserver(listener));
     }
 
     /**
      * 表单post请求
      */
-    public RetrofitManager postFormBody(String url, Map<String, RequestBody> map) {
+    public void postFormBody(String url, Map<String, RequestBody> map,HttpListener listener) {
         if (map == null) {
             map = new HashMap<>();
         }
         mBaseApis.postFormBody(url, map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-        return mRetrofitManager;
+                .subscribe(getObserver(listener));
     }
 
 
     /**
      * 普通post请求
      */
-    public RetrofitManager post(String url, Map<String, String> map) {
+    public void post(String url, Map<String, String> map,HttpListener listener) {
         if (map == null) {
             map = new HashMap<>();
         }
         mBaseApis.post(url, map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-        return mRetrofitManager;
+                .subscribe(getObserver(listener));
     }
 
     /**
      * put 请求
      */
-    public RetrofitManager put(String url,Map<String,String> map){
+    public void put(String url,Map<String,String> map,HttpListener listener){
         if (map == null){
             map =new HashMap<>();
         }
         mBaseApis.put(url,map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(observer);
-        return mRetrofitManager;
+                .subscribe(getObserver(listener));
     }
-    private Observer observer = new Observer<ResponseBody>() {
-        @Override
-        public void onNext(ResponseBody responseBody) {
-            try {
-                String data = responseBody.string();
-                if (listener != null) {
-                    listener.onSuccess(data);
+
+    private Observer getObserver(final HttpListener listener) {
+        Observer observer = new Observer<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    String data = responseBody.string();
+                    if (listener != null) {
+                        listener.onSuccess(data);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    if (listener != null) {
+                        listener.onFail(e.getMessage());
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            }
+
+            @Override
+            public void onError(Throwable e) {
                 if (listener != null) {
                     listener.onFail(e.getMessage());
                 }
             }
-        }
 
-        @Override
-        public void onError(Throwable e) {
-            if (listener != null) {
-                listener.onFail(e.getMessage());
+            @Override
+            public void onCompleted() {
+
             }
-        }
+        };
 
-        @Override
-        public void onCompleted() {
+        return observer;
+    }
 
-        }
-    };
+
+
     private HttpListener listener;
 
     public void result(HttpListener listener) {

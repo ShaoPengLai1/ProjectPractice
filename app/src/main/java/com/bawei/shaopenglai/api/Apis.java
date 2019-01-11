@@ -84,7 +84,7 @@ public class Apis {
     /**
      * 圈子列表 http://172.17.8.100/small/circle/v1/findCircleList
      */
-    public static final String URL_FIND_CIRCLE_LIST_GET="user/verify/v1/findShoppingCart";
+    public static final String URL_FIND_CIRCLE_LIST_GET="circle/v1/findCircleList";
     /**
      * 发布圈子 http://172.17.8.100/small/circle/verify/v1/releaseCircle
      */

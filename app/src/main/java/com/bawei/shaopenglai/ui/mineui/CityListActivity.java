@@ -94,7 +94,7 @@ public class CityListActivity extends AppCompatActivity implements IView {
 
         sharedPreferences = getSharedPreferences("Address", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        adresss.setOnClickListener(new View.OnClickListener() {
+        mycity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 initCityPicker();
@@ -197,7 +197,6 @@ public class CityListActivity extends AppCompatActivity implements IView {
     @Override
     protected void onResume() {
         super.onResume();
-
 
     }
 
