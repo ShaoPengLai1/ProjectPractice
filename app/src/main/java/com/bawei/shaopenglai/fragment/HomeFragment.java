@@ -2,6 +2,7 @@ package com.bawei.shaopenglai.fragment;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,21 +23,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.adapter.BottomHomeAdapter;
-import com.bawei.shaopenglai.adapter.ByIdAdapter;
-import com.bawei.shaopenglai.adapter.ByNameAdapter;
-import com.bawei.shaopenglai.adapter.HotAdapter;
-import com.bawei.shaopenglai.adapter.MoAdapter;
-import com.bawei.shaopenglai.adapter.PinAdapter;
-import com.bawei.shaopenglai.adapter.TopHomeAdapter;
+import com.bawei.shaopenglai.adapter.home.BottomHomeAdapter;
+import com.bawei.shaopenglai.adapter.home.ByIdAdapter;
+import com.bawei.shaopenglai.adapter.home.ByNameAdapter;
+import com.bawei.shaopenglai.adapter.home.HotAdapter;
+import com.bawei.shaopenglai.adapter.home.MoAdapter;
+import com.bawei.shaopenglai.adapter.home.PinAdapter;
+import com.bawei.shaopenglai.adapter.home.TopHomeAdapter;
 import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.BottomTasBean;
-import com.bawei.shaopenglai.bean.ByIdBean;
-import com.bawei.shaopenglai.bean.ByName;
-import com.bawei.shaopenglai.bean.GoodsBean;
-import com.bawei.shaopenglai.bean.HomeBean;
-import com.bawei.shaopenglai.bean.TopLasBean;
-import com.bawei.shaopenglai.bean.XBannerBeans;
+import com.bawei.shaopenglai.bean.home.BottomTasBean;
+import com.bawei.shaopenglai.bean.home.ByIdBean;
+import com.bawei.shaopenglai.bean.home.ByName;
+import com.bawei.shaopenglai.bean.shopping.GoodsBean;
+import com.bawei.shaopenglai.bean.home.HomeBean;
+import com.bawei.shaopenglai.bean.home.TopLasBean;
+import com.bawei.shaopenglai.bean.home.XBannerBeans;
 import com.bawei.shaopenglai.custom.AppinfoiItemDecoration;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
@@ -236,7 +236,7 @@ public class HomeFragment extends Fragment implements IView {
         //设置焦点
         popupWindow.setFocusable(true);
         //设置背景
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //设置可触摸
         popupWindow.setTouchable(true);
         //设置位置

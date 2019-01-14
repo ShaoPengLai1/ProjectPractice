@@ -17,9 +17,10 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
- * @author Peng Retrofit网络请求类
+ * @author Peng Retrofit网络请求类http://mobile.bwstudent.com/small/
  */
 public class RetrofitManager <T>{
+
     private final String BASE_URL="http://172.17.8.100/small/";
     private static RetrofitManager mRetrofitManager;
 
@@ -112,6 +113,22 @@ public class RetrofitManager <T>{
             map =new HashMap<>();
         }
         mBaseApis.put(url,map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(getObserver(listener));
+    }
+
+    /**
+     * delete请求
+     * @param quxiao
+     * @param map
+     * @param listener
+     */
+    public void delete(String quxiao, Map<String, String> map, HttpListener listener) {
+        if(map==null){
+            map=new HashMap<>();
+        }
+        mBaseApis.delete(quxiao,map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(getObserver(listener));

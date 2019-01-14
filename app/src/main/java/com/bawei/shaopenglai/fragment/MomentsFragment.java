@@ -11,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.adapter.CircleAdapter;
+import com.bawei.shaopenglai.adapter.circle.CircleAdapter;
 import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.CircleBean;
-import com.bawei.shaopenglai.custom.Constants;
+import com.bawei.shaopenglai.bean.circle.CircleBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;

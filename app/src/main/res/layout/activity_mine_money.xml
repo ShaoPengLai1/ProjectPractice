@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/dp_20"
     android:paddingRight="@dimen/dp_20"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:background="#00FFFFFF" >
-
+    <include layout="@layout/toolbar"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_156"
-        android:layout_marginTop="@dimen/dp_41"
+        android:layout_marginTop="@dimen/dp_20"
         android:background="@mipmap/bg_qianbao"
         android:orientation="vertical">
         <TextView

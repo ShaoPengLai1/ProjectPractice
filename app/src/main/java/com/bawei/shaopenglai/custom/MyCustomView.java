@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.adapter.MyShoppingAdapter;
-import com.bawei.shaopenglai.bean.ShowShoppingBean;
+import com.bawei.shaopenglai.bean.shopping.ShowShoppingBean;
 
 import java.util.ArrayList;
 import java.util.List;

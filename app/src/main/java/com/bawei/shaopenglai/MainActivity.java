@@ -20,11 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.Loginbean;
-import com.bawei.shaopenglai.bean.RegisterBean;
+import com.bawei.shaopenglai.bean.home.Loginbean;
 import com.bawei.shaopenglai.custom.Constants;
 import com.bawei.shaopenglai.custom.EventBean;
-import com.bawei.shaopenglai.network.NonNullUtils;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
 

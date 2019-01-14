@@ -3,12 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginLeft="@dimen/dp_24"
-    android:layout_marginRight="@dimen/dp_24"
+    android:layout_margin="@dimen/dp_5"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/selector_background_ziliao"
         android:padding="@dimen/dp_10"
         >

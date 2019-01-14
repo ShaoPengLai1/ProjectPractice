@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +15,9 @@ import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.AddAddrBean;
+import com.bawei.shaopenglai.bean.mine.addr.AddAddrBean;
 import com.bawei.shaopenglai.custom.Constants;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
-import com.bawei.shaopenglai.ui.GoodsActivity;
 import com.bawei.shaopenglai.view.IView;
 import com.lljjcoder.citypickerview.widget.CityPicker;
 
@@ -67,6 +67,8 @@ public class CityListActivity extends AppCompatActivity implements IView {
     EditText newPhone;
     @BindView(R.id.newAddr)
     EditText newAddr;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private CityPicker cityPicker;
     private String province;
     private String city;
@@ -86,6 +88,15 @@ public class CityListActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_city_list);
         ButterKnife.bind(this);
         initView();
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
+        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void initView() {
@@ -177,7 +188,7 @@ public class CityListActivity extends AppCompatActivity implements IView {
                     // 此处为失去焦点时的处理内容
                     newAddr.setVisibility(View.GONE);
                     adresss.setVisibility(View.VISIBLE);
-                    adresss.setText(newAddr.getText().toString());
+                    dizhi.setText(newAddr.getText().toString());
                 }
             }
         });
@@ -272,17 +283,17 @@ public class CityListActivity extends AppCompatActivity implements IView {
 
     @Override
     public void getDataSuccess(Object data) {
-        if (data instanceof AddAddrBean){
-            AddAddrBean addrBean= (AddAddrBean) data;
-            if (addrBean==null){
-                Toast.makeText(CityListActivity.this,addrBean.getMessage(),Toast.LENGTH_LONG).show();
+        if (data instanceof AddAddrBean) {
+            AddAddrBean addrBean = (AddAddrBean) data;
+            if (addrBean == null) {
+                Toast.makeText(CityListActivity.this, addrBean.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
     }
 
     @Override
     public void getDataFail(String error) {
-        Toast.makeText(CityListActivity.this,error,Toast.LENGTH_LONG).show();
+        Toast.makeText(CityListActivity.this, error, Toast.LENGTH_LONG).show();
     }
 
     @Override

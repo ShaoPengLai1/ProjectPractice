@@ -14,9 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.bean.ShowShoppingBean;
+import com.bawei.shaopenglai.bean.shopping.ShowShoppingBean;
 import com.bawei.shaopenglai.custom.CustomJiaJian;
-import com.bawei.shaopenglai.custom.MyCustomView;
 import com.bumptech.glide.Glide;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -47,7 +46,6 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         View view=LayoutInflater.from(context).inflate(R.layout.item_shop,viewGroup,false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull final XRecyclerView.ViewHolder viewHolder, final int i) {
         final ViewHolder holder= (ViewHolder) viewHolder;
@@ -56,6 +54,7 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         Uri parse = Uri.parse(mlist.get(i).getPic());
         Glide.with(context).load(mlist.get(i).getPic()).into(holder.sd_shop_sim);
         holder.che_box.setChecked(mlist.get(i).isItem_check());
+
         holder.che_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -65,62 +64,17 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
                 }
             }
         });
-        EditText count=((ViewHolder) viewHolder).cus_view.findViewById(R.id.count);
-        count.setText(mlist.get(i).getCount()+"");
-        holder.cus_view.setCustomListener(new CustomJiaJian.CustomListener() {
+        holder.cus_view.setDAta(this,mlist,i);
+        holder.cus_view.setCallbacklistener(new CustomJiaJian.Callbacklistener() {
             @Override
-            public void jiajian(int count) {
-                //改变数据源中的数量
-                mlist.get(i).setCount(count);
-                notifyDataSetChanged();
-                sum(mlist);
-            }
-
-            @Override
-            public void shuRuZhi(int count) {
-
-            }
-        });
-        //商品的item_checkbox点击事件,控制商铺的shop_checkbox
-        holder.che_box.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //先改变数据源中的item_checkbox
-                mlist.get(i).setItem_check(holder.che_box.isChecked());
-                //更新适配器
-                notifyDataSetChanged();
-                //调用求和的方法
-                sum(mlist);
+            public void callback(int num) {
+                mlist.get(i).setCount(num);
+                if (shopCarListener!=null){
+                    shopCarListener.callBack(mlist);
+                }
             }
         });
     }
-    //view层调用这个方法, 点击quanxuan按钮的操作
-    public void quanXuan(boolean checked) {
-        for (int i=0;i<mlist.size();i++){
-            mlist.get(i).setItem_check(checked);
-        }
-        notifyDataSetChanged();
-        sum(mlist);
-    }
-
-    private void sum(List<ShowShoppingBean.ResuleBean> mlist) {
-        //初始的总价为0
-        int totalNum = 0;
-        float totalMoney = 0.0f;
-        boolean allCheck = true;
-        for (int i=0;i<mlist.size();i++){
-            //把 已经选中的 条目 计算价格
-            if (mlist.get(i).isItem_check()){
-                totalNum += mlist.get(i).getCount();
-                totalMoney += mlist.get(i).getCount() * mlist.get(i).getPrice();
-            }else{
-                //如果有个未选中,就标记为false
-                allCheck = false;
-            }
-        }
-        updateListener.setTotal(totalMoney+"",totalNum+"",allCheck);
-    }
-
     @Override
     public int getItemCount() {
         return mlist.size();
@@ -140,45 +94,6 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
-    }
-    UpdateListener updateListener;
-    public void setUpdateListener(UpdateListener updateListener){
-        this.updateListener = updateListener;
-    }
-    //接口
-    public interface UpdateListener{
-        public void setTotal(String total, String num, boolean allCheck);
-    }
-    /**
-     * 定义条目点击接口
-     */
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
-    }
-
-    /**
-     * 定义条目长按事件的接口
-     */
-    public interface OnLongItemClickListener {
-        void onItemLongClick(View itemView, int position);
-    }
-    private OnItemClickListener clickListener;
-    private OnLongItemClickListener longItemClickListener;
-
-    /**
-     * 点击事件回调
-     * @param clickListener
-     */
-    public void setOnItemClickListener(OnItemClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    /**
-     * 长按事件回调
-     * @param longItemClickListener
-     */
-    public void setOnLongItemClickListener(OnLongItemClickListener longItemClickListener) {
-        this.longItemClickListener = longItemClickListener;
     }
     private ShopCarListener shopCarListener;
     public void setShopCarListener(ShopCarListener shopCarListener) {

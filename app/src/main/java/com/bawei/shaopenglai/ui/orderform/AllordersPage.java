@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.adapter.AlldorInfoByStatusAdapter;
-import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.AlldorInfoByStatusBean;
+import com.bawei.shaopenglai.adapter.order.OrderAdapter;
+import com.bawei.shaopenglai.bean.order.AlldorInfoByStatusBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +45,7 @@ public class AllordersPage extends Fragment implements IView {
     TextView yuan;
     Unbinder unbinder;
     private IPresenterImpl iPresenter;
-    private AlldorInfoByStatusAdapter adapter;
+    private OrderAdapter adapter;
     private SharedPreferences sharedPreferences;
 
     @Nullable
@@ -73,7 +69,7 @@ public class AllordersPage extends Fragment implements IView {
         iPresenter=new IPresenterImpl(this);
         allordersRecycle.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL,false));
-        adapter=new AlldorInfoByStatusAdapter(getActivity());
+        adapter=new OrderAdapter(getActivity());
         allordersRecycle.setAdapter(adapter);
         loadData();
     }

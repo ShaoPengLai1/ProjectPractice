@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/linear"
             android:orientation="horizontal"
             android:layout_width="@dimen/dp_280"
             android:padding="@dimen/dp_10"

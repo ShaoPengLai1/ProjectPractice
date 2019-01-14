@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginLeft="@dimen/dp_24"
+    android:layout_marginRight="@dimen/dp_24"
     tools:context=".ui.mineui.MainFootActivity">
+    <include layout="@layout/toolbar"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +16,6 @@
         android:gravity="center"
         android:textSize="@dimen/sp_16"
         android:textColor="@color/text_color_six"
-        android:layout_marginTop="@dimen/dp_40"
         />
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:layout_marginTop="@dimen/dp_20"

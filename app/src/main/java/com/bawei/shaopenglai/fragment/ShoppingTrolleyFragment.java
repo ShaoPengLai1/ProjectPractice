@@ -17,19 +17,22 @@ import android.widget.Toast;
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.adapter.MyShoppingAdapter;
 import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.GoodsBean;
-import com.bawei.shaopenglai.bean.ShowShoppingBean;
-import com.bawei.shaopenglai.bean.ShowShoppingBean.ResuleBean;
+import com.bawei.shaopenglai.bean.mine.addr.AddAddrBean;
+import com.bawei.shaopenglai.bean.shopping.GoodsBean;
+import com.bawei.shaopenglai.bean.shopping.ShowShoppingBean;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.shopping.TJDDActivity;
 import com.bawei.shaopenglai.view.IView;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,44 +75,56 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
 
         shoppingAdapter=new MyShoppingAdapter(getActivity());
         recyclerView.setAdapter(shoppingAdapter);
-        //1为不选中
-        quanxuan.setTag(1);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),
-                LinearLayoutManager.VERTICAL,false));
-
-
-        shoppingAdapter.setUpdateListener(new MyShoppingAdapter.UpdateListener() {
+        showShopping();
+        shoppingAdapter.setShopCarListener(new MyShoppingAdapter.ShopCarListener() {
             @Override
-            public void setTotal(String total, String num, boolean allCheck) {
-                //设置ui的改变
-                totalPrice.setText("合计 :¥"+total+"元");//总价
-                if (allCheck){
-                    quanxuan.setTag(2);
-                    quanxuan.setBackgroundResource(R.drawable.ic_action_selected);
-                }else {
-                    quanxuan.setTag(1);
-                    quanxuan.setBackgroundResource(R.drawable.ic_action_unselected);
-                }
-                quanxuan.setChecked(allCheck);
+            public void callBack(List<ShowShoppingBean.ResuleBean> mlist) {
+                showShoppingBean.getResult().clear();
+                String s = new Gson().toJson(mlist);
+                Map<String,String> map=new HashMap<>();
+                map.put("data",s);
+                iPresenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT,map,AddAddrBean.class);
+                showShoppingBean.getResult().addAll(mlist);
+                totalMoney();
             }
         });
-        quanxuan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //调用adapter里面的方法 ,,把当前quanxuan状态传递过去
-                int tag = (int) quanxuan.getTag();
-                if(tag==1){
-                    quanxuan.setTag(2);
-                    quanxuan.setBackgroundResource(R.drawable.ic_action_selected);
-                }else{
-                    quanxuan.setTag(1);
-                    quanxuan.setBackgroundResource(R.drawable.ic_action_unselected);
-                }
-                shoppingAdapter.quanXuan(quanxuan.isChecked());
 
+    }
+
+    private void totalMoney() {
+        int money=0;
+        boolean ischeck=true;
+        for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
+            if (showShoppingBean.getResult().get(i).isItem_check()){
+                money+=showShoppingBean.getResult().get(i).getPrice()*showShoppingBean.getResult().get(i).getCount();
+            }else {
+                ischeck=false;
             }
-        });
-        loadData();
+        }
+        totalPrice.setText("￥"+money+"");
+        quanxuan.setChecked(ischeck);
+        back();
+    }
+    private void showShopping() {
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,ShowShoppingBean.class);
+    }
+
+    private void back() {
+        if (quanxuan.isChecked()){
+            quanxuan.setBackgroundResource(R.mipmap.ic_action_selected);
+        }else {
+            quanxuan.setBackgroundResource(R.mipmap.ic_action_unselected);
+        }
+    }
+
+    private void quanxuan() {
+        back();
+        for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
+            showShoppingBean.getResult().get(i).setItem_check(quanxuan.isChecked());
+        }
+        shoppingAdapter.setList(showShoppingBean.getResult());
     }
     private void loadData() {
         iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,ShowShoppingBean.class);
@@ -118,12 +133,8 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     @Override
     public void getDataSuccess(Object data) {
         if (data instanceof ShowShoppingBean){
-            ShowShoppingBean bean= (ShowShoppingBean) data;
-            if (bean==null||!bean.isSuceess()){
-                Toast.makeText(getActivity(),bean.getMessage(),Toast.LENGTH_LONG).show();
-            }else {
-                shoppingAdapter.setList(bean.getResult());
-            }
+            showShoppingBean = (ShowShoppingBean) data;
+            shoppingAdapter.setList(showShoppingBean.getResult());
         }
     }
 
@@ -156,12 +167,20 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     }
 
 
-    @OnClick({R.id.qjs})
+    @OnClick({R.id.quanxuan,R.id.qjs})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-
+            case R.id.quanxuan:
+                quanxuan();
+                break;
             case R.id.qjs:
-
+                ShowShoppingBean lists=new ShowShoppingBean();
+                for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
+                    if (showShoppingBean.getResult().get(i).isItem_check()){
+                        lists.addResult(showShoppingBean.getResult().get(i));
+                    }
+                }
+                EventBus.getDefault().postSticky(new EventBean("list",lists));
                 Intent intent = new Intent(getActivity(), TJDDActivity.class);
                 startActivity(intent);
                 break;

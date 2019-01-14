@@ -55,11 +55,12 @@
             android:background="@drawable/shape_text_mine"
             android:layout_marginLeft="@dimen/dp_45"
             android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_3"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -84,11 +85,12 @@
             android:background="@drawable/shape_text_mine"
             android:layout_marginLeft="@dimen/dp_45"
             android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_3"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -113,11 +115,12 @@
             android:background="@drawable/shape_text_mine"
             android:layout_marginLeft="@dimen/dp_45"
             android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_3"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -142,13 +145,14 @@
             android:background="@drawable/shape_text_mine"
             android:layout_marginLeft="@dimen/dp_45"
             android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_3"
             />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_20"
             >
             <ImageView
                 android:layout_width="@dimen/dp_24"
@@ -171,6 +175,7 @@
             android:background="@drawable/shape_text_mine"
             android:layout_marginLeft="@dimen/dp_45"
             android:layout_marginRight="@dimen/dp_24"
+            android:layout_marginTop="@dimen/dp_3"
             />
     </LinearLayout>
 

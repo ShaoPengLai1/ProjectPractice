@@ -98,5 +98,37 @@ public class ShoppingTrolleyActivity extends AppCompatActivity {
                 }
             }
         });
+        contents.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                switch (i){
+                    case 0:
+                        radioGroup.check(R.id.homeRadio);
+                        break;
+                    case 1:
+                        radioGroup.check(R.id.momentsRadio);
+                        break;
+                    case 2:
+                        radioGroup.check(R.id.shoppingTrolleyRadio);
+                        break;
+                    case 3:
+                        radioGroup.check(R.id.purchaseOrderRadio);
+                        break;
+                    case 4:
+                        radioGroup.check(R.id.mineRadio);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 }

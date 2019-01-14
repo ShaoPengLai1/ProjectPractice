@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.api.Apis;
-import com.bawei.shaopenglai.bean.Loginbean;
 import com.bawei.shaopenglai.bean.RegisterBean;
 import com.bawei.shaopenglai.custom.Constants;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.bean.Loginbean;
+import com.bawei.shaopenglai.bean.home.Loginbean;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.mineui.AddAddressActivity;
@@ -25,9 +25,7 @@ import com.bawei.shaopenglai.ui.mineui.MineMoneyActivity;
 import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
 import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
 import com.bawei.shaopenglai.view.IView;
-import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -165,7 +163,6 @@ public class MineFragment extends Fragment implements IView {
             loginbean = (Loginbean) evBean.getClazz();
             Uri uri = Uri.parse(loginbean.getResult().getHeadPic());
             mineIcon.setImageURI(uri);
-            //Glide.with(getActivity()).load(uri).into(mineIcon);
             nickname.setText(loginbean.getResult().getNickName());
         }
     }

@@ -8,11 +8,10 @@
     android:layout_marginRight="@dimen/dp_24"
     android:orientation="vertical"
     tools:context=".ui.mineui.MyGroupActivity">
-
+    <include layout="@layout/toolbar"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_40"
         >
 
         <TextView
