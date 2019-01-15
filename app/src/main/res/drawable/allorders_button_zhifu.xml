@@ -5,6 +5,6 @@
     <!-- 填充色 -->
     <solid  android:color="#ff5757"/>
     <!-- 描边 设置线宽及颜色 -->
-    <stroke android:color="#ff5757"
+    <stroke android:color="@color/hyperlink"
         android:width="@dimen/dp_1"/>
 </shape>

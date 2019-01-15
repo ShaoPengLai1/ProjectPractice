@@ -11,7 +11,7 @@
         />
     <!-- 描边 设置线宽及颜色 -->
 
-    <stroke android:color="#999999"
+    <stroke android:color="@color/actionbar_background_start"
 
         android:width="@dimen/dp_1"/>
 </shape>

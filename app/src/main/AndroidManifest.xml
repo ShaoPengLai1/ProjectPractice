@@ -28,7 +28,8 @@
         <activity android:name=".ui.GoodsActivity" />
         <activity android:name=".ui.mineui.AddAddressActivity" />
         <activity android:name=".ui.mineui.MineMoneyActivity" />
-        <activity android:name=".ui.mineui.MainFootActivity"></activity>
+        <activity android:name=".ui.mineui.MainFootActivity" />
+        <activity android:name=".fragment.lb.SecondActivity"></activity>
     </application>
 
 </manifest>

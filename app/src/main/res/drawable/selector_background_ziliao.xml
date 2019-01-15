@@ -19,7 +19,7 @@
                     <solid android:color="#999999" />
                     <corners android:radius="5dp" />
                     <!-- 描边 -->
-                    <stroke android:width="1dp" android:color="#ffffffff" />
+                    <stroke android:width="1dp" android:color="@color/filter_bg_color" />
                 </shape>
             </item>
             <!-- 第二层 -->
@@ -28,7 +28,7 @@
                     <solid android:color="#ffffff" />
                     <corners android:radius="5dp" />
                     <!-- 描边 -->
-                    <stroke android:width="1dp" android:color="#ffffffff" />
+                    <stroke android:width="1dp" android:color="@color/block_column_1" />
                 </shape>
             </item>
         </layer-list>

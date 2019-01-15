@@ -20,7 +20,7 @@
                     <solid android:color="#ffffff" />
                     <corners android:radius="0dp" />
                     <!-- 描边 -->
-                    <stroke android:width="1dp" android:color="#ffffffff" />
+                    <stroke android:width="1dp" android:color="@color/topic_name_color" />
                 </shape>
             </item>
         </layer-list>

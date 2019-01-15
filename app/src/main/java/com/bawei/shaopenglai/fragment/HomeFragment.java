@@ -40,6 +40,7 @@ import com.bawei.shaopenglai.bean.home.TopLasBean;
 import com.bawei.shaopenglai.bean.home.XBannerBeans;
 import com.bawei.shaopenglai.custom.AppinfoiItemDecoration;
 import com.bawei.shaopenglai.custom.EventBean;
+import com.bawei.shaopenglai.fragment.lb.SecondActivity;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.GoodsActivity;
 import com.bawei.shaopenglai.view.IView;
@@ -400,6 +401,13 @@ public class HomeFragment extends Fragment implements IView {
             @Override
             public void loadBanner(XBanner banner, Object model, View view, int position) {
                 Glide.with(getActivity()).load(mImgUrl.get(position)).into((ImageView) view);
+            }
+        });
+        xbannerHome.setOnItemClickListener(new XBanner.OnItemClickListener() {
+            @Override
+            public void onItemClick(XBanner banner, Object model, View view, int position) {
+                Intent intent=new Intent(getActivity(),SecondActivity.class);
+                startActivity(intent);
             }
         });
         xbannerHome.setPageTransformer(Transformer.Default);

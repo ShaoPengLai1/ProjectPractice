@@ -2,14 +2,13 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#757575"
-    android:layout_marginLeft="@dimen/dp_15"
-    android:layout_marginRight="@dimen/dp_15"
+    android:background="@drawable/shape_addr_show"
     android:layout_height="@dimen/dp_250">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         >
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle"

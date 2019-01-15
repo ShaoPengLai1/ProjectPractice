@@ -250,6 +250,6 @@ public class TJDDActivity extends AppCompatActivity implements IView {
 
     @Override
     public void getDataFail(String error) {
-
+        Toast.makeText(TJDDActivity.this,error,Toast.LENGTH_LONG).show();
     }
 }

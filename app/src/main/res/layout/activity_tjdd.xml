@@ -13,7 +13,7 @@
         android:id="@+id/addAddress"
         android:layout_width="@dimen/dp_312"
         android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_50"
         android:layout_marginBottom="@dimen/dp_20"
         android:text="暂无收货地址 点击添加"
         android:textColor="#ff5f71"
@@ -22,10 +22,9 @@
         />
     <LinearLayout
         android:id="@+id/saddAddress"
-        android:layout_width="@dimen/dp_312"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
 
-        android:layout_marginBottom="@dimen/dp_20"
         android:orientation="horizontal"
         android:visibility="invisible"
         android:background="@drawable/shopping_but_addr"

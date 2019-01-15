@@ -29,7 +29,7 @@
         <!-- 模糊 -->
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 遮罩层 -->
-        <item name="android:backgroundDimAmount">0.8</item>
+        <item name="android:backgroundDimAmount">0.6</item>
     </style>
 
 

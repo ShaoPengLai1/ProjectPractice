@@ -4,7 +4,6 @@
     android:layout_width="@dimen/dp_312"
     android:layout_height="@dimen/dp_118"
     android:layout_marginTop="@dimen/dp_10"
-    android:layout_marginLeft="@dimen/dp_20"
     android:paddingTop="@dimen/dp_10"
     android:paddingBottom="@dimen/dp_10"
     android:background="@drawable/selector_background_ziliao"

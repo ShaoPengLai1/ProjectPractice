@@ -6,6 +6,6 @@
     <!-- 填充色 -->
     <solid  android:color="#ffffff"/>
     <!-- 描边 设置线宽及颜色 -->
-    <stroke android:color="@color/white"
+    <stroke android:color="@color/umeng_fb_color_btn_pressed"
         android:width="1dp"/>
 </shape>
