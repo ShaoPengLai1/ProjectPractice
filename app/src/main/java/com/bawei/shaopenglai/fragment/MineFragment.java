@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
+import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.home.Loginbean;
+import com.bawei.shaopenglai.bean.mine.IconHear;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.mineui.AddAddressActivity;
@@ -30,6 +33,10 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,16 +141,20 @@ public class MineFragment extends Fragment implements IView {
                 startActivity(intent5);
                 break;
             case R.id.mine_icon:
-
                 break;
             default:
                 break;
         }
     }
 
+
+
     @Override
     public void getDataSuccess(Object data) {
-
+        if (data instanceof IconHear){
+            IconHear iconHear= (IconHear) data;
+            Toast.makeText(getActivity(),iconHear.getMessage(),Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

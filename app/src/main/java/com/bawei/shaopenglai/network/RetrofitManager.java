@@ -1,12 +1,18 @@
 package com.bawei.shaopenglai.network;
 
+import com.bawei.shaopenglai.callback.ICallBack;
+
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -23,6 +29,7 @@ public class RetrofitManager <T>{
 
     private final String BASE_URL="http://172.17.8.100/small/";
     private static RetrofitManager mRetrofitManager;
+    private final OkHttpClient client;
 
     public static synchronized RetrofitManager getInstance() {
         if (mRetrofitManager == null) {
@@ -42,7 +49,7 @@ public class RetrofitManager <T>{
         builder.writeTimeout(15, TimeUnit.SECONDS);
         builder.addInterceptor(new CustomIntercept());
         builder.retryOnConnectionFailure(true);
-        OkHttpClient client = builder.build();
+        client = builder.build();
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(BASE_URL)
@@ -50,6 +57,7 @@ public class RetrofitManager <T>{
                 .build();
         mBaseApis = retrofit.create(BaseApis.class);
     }
+
 
     /**
      * 可以这样生成Map<String, RequestBody> requestBodyMap

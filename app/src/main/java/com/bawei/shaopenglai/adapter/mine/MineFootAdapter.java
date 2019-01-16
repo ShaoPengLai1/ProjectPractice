@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bawei.shaopenglai.R;
+import com.bawei.shaopenglai.adapter.home.TopHomeAdapter;
 import com.bawei.shaopenglai.bean.mine.addr.MineFootBean;
 import com.bumptech.glide.Glide;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -52,12 +53,20 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull XRecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull XRecyclerView.ViewHolder viewHolder, final int i) {
         MineFootViewHolder footViewHolder= (MineFootViewHolder) viewHolder;
         Glide.with(mContext).load(mList.get(i).getMasterPic()).into(footViewHolder.imageView);
         footViewHolder.name.setText(mList.get(i).getCommodityName());
         footViewHolder.price.setText("￥"+mList.get(i).getPrice()+"");
         footViewHolder.llcs.setText("已浏览"+mList.get(i).getBrowseNum()+"次");
+        footViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(listener!=null){
+                    listener.setonclicklisener(i);
+                }
+            }
+        });
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
                 new java.util.Date(mList.get(i).getBrowseTime()));
         footViewHolder.llsj.setText(date);
@@ -81,5 +90,13 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             llcs=itemView.findViewById(R.id.llcs);
             llsj=itemView.findViewById(R.id.llsj);
         }
+    }
+    private MineFootAdapter.Cicklistener listener;
+
+    public void result(MineFootAdapter.Cicklistener listener) {
+        this.listener = listener;
+    }
+    public interface Cicklistener {
+        void setonclicklisener(int index);
     }
 }

@@ -1,5 +1,6 @@
 package com.bawei.shaopenglai.model;
 
+import com.bawei.shaopenglai.callback.ICallBack;
 import com.bawei.shaopenglai.callback.MyCallBack;
 import com.bawei.shaopenglai.network.RetrofitManager;
 import com.google.gson.Gson;
@@ -62,29 +63,6 @@ public class IModelImpl implements IModel {
                 }
             }
         });
-//                .result(new RetrofitManager.HttpListener() {
-//            @Override
-//            public void onSuccess(String data) {
-//                try{
-//                    Object o = new Gson().fromJson(data, clazz);
-//                    if(myCallBack != null){
-//                        myCallBack.onSuccess(o);
-//                    }
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                    if(myCallBack != null){
-//                        myCallBack.onFail(e.getMessage());
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onFail(String error) {
-//                if(myCallBack != null){
-//                    myCallBack.onFail(error);
-//                }
-//            }
-//        });
     }
 
     @Override
@@ -112,4 +90,8 @@ public class IModelImpl implements IModel {
             }
         });
     }
+
+
+
+
 }

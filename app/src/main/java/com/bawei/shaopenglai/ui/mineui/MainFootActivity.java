@@ -1,5 +1,6 @@
 package com.bawei.shaopenglai.ui.mineui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,9 +13,14 @@ import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.adapter.mine.MineFootAdapter;
 import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.mine.addr.MineFootBean;
+import com.bawei.shaopenglai.bean.shopping.GoodsBean;
+import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
+import com.bawei.shaopenglai.ui.GoodsActivity;
 import com.bawei.shaopenglai.view.IView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +34,7 @@ public class MainFootActivity extends AppCompatActivity implements IView {
     private MineFootAdapter footAdapter;
     private IPresenterImpl iPresenter;
     private int mPage;
+    private MineFootBean footBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,13 @@ public class MainFootActivity extends AppCompatActivity implements IView {
             }
         });
         loadData();
+        footAdapter.result(new MineFootAdapter.Cicklistener() {
+            @Override
+            public void setonclicklisener(int index) {
+                int commodityId = footBean.getResult().get(index).getCommodityId();
+                getGoods(commodityId);
+            }
+        });
     }
 
     //
@@ -74,11 +88,14 @@ public class MainFootActivity extends AppCompatActivity implements IView {
         iPresenter.startRequestGet(Apis.URL_BROWSE_LIST_GET + "?page=" + mPage + "&count=10",
                 null, MineFootBean.class);
     }
-
+    private void getGoods(int id) {
+        iPresenter.startRequestGet(Apis.URL_FIND_COMMODITY_DETAILS_BYID_GET
+                + "?commodityId=" + id, null, GoodsBean.class);
+    }
     @Override
     public void getDataSuccess(Object data) {
         if (data instanceof MineFootBean) {
-            MineFootBean footBean = (MineFootBean) data;
+            footBean = (MineFootBean) data;
             if (footBean == null || !footBean.isSuccess()) {
                 Toast.makeText(MainFootActivity.this,
                         footBean.getMessage(), Toast.LENGTH_LONG).show();
@@ -92,6 +109,10 @@ public class MainFootActivity extends AppCompatActivity implements IView {
                 xrecycle.refreshComplete();
                 xrecycle.loadMoreComplete();
             }
+        }
+        if (data instanceof GoodsBean) {
+            EventBus.getDefault().postSticky(new EventBean("goods", data));
+            startActivity(new Intent(this, GoodsActivity.class));
         }
     }
 

@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +55,11 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     Unbinder unbinder;
     @BindView(R.id.qjs)
     TextView qjs;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.delAll)
+    Button delAll;
+
     private GoodsBean goodsBean;
     private IPresenterImpl iPresenter;
     private MyShoppingAdapter shoppingAdapter;
@@ -64,7 +71,7 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shaopping_car, container, false);
         unbinder = ButterKnife.bind(this, view);
-        iPresenter=new IPresenterImpl(this);
+        iPresenter = new IPresenterImpl(this);
         loadData();
         return view;
     }
@@ -73,7 +80,7 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        shoppingAdapter=new MyShoppingAdapter(getActivity());
+        shoppingAdapter = new MyShoppingAdapter(getActivity());
         recyclerView.setAdapter(shoppingAdapter);
         showShopping();
         shoppingAdapter.setShopCarListener(new MyShoppingAdapter.ShopCarListener() {
@@ -81,9 +88,9 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
             public void callBack(List<ShowShoppingBean.ResuleBean> mlist) {
                 showShoppingBean.getResult().clear();
                 String s = new Gson().toJson(mlist);
-                Map<String,String> map=new HashMap<>();
-                map.put("data",s);
-                iPresenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT,map,AddAddrBean.class);
+                Map<String, String> map = new HashMap<>();
+                map.put("data", s);
+                iPresenter.startRequestPut(Apis.URL_SYNC_SHOPPING_CART_PUT, map, AddAddrBean.class);
                 showShoppingBean.getResult().addAll(mlist);
                 totalMoney();
             }
@@ -92,29 +99,30 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     }
 
     private void totalMoney() {
-        int money=0;
-        boolean ischeck=true;
+        int money = 0;
+        boolean ischeck = true;
         for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
-            if (showShoppingBean.getResult().get(i).isItem_check()){
-                money+=showShoppingBean.getResult().get(i).getPrice()*showShoppingBean.getResult().get(i).getCount();
-            }else {
-                ischeck=false;
+            if (showShoppingBean.getResult().get(i).isItem_check()) {
+                money += showShoppingBean.getResult().get(i).getPrice() * showShoppingBean.getResult().get(i).getCount();
+            } else {
+                ischeck = false;
             }
         }
-        totalPrice.setText("￥"+money+"");
+        totalPrice.setText("￥" + money + "");
         quanxuan.setChecked(ischeck);
         back();
     }
+
     private void showShopping() {
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,ShowShoppingBean.class);
+        iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET, null, ShowShoppingBean.class);
     }
 
     private void back() {
-        if (quanxuan.isChecked()){
+        if (quanxuan.isChecked()) {
             quanxuan.setBackgroundResource(R.mipmap.ic_action_selected);
-        }else {
+        } else {
             quanxuan.setBackgroundResource(R.mipmap.ic_action_unselected);
         }
     }
@@ -126,13 +134,14 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
         }
         shoppingAdapter.setList(showShoppingBean.getResult());
     }
+
     private void loadData() {
-        iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET,null,ShowShoppingBean.class);
+        iPresenter.startRequestGet(Apis.URL_FIND_SHOPPING_CART_GET, null, ShowShoppingBean.class);
     }
 
     @Override
     public void getDataSuccess(Object data) {
-        if (data instanceof ShowShoppingBean){
+        if (data instanceof ShowShoppingBean) {
             showShoppingBean = (ShowShoppingBean) data;
             shoppingAdapter.setList(showShoppingBean.getResult());
         }
@@ -140,7 +149,7 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
 
     @Override
     public void getDataFail(String error) {
-        Toast.makeText(getActivity(),"111",Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), "111", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -151,15 +160,17 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
 
     @Subscribe(threadMode = ThreadMode.POSTING, sticky = true)
     public void onEvent(EventBean evBean) {
-        if (evBean.getName().equals("myDialog")){
+        if (evBean.getName().equals("myDialog")) {
             goodsBean = (GoodsBean) evBean.getClazz();
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -167,25 +178,42 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     }
 
 
-    @OnClick({R.id.quanxuan,R.id.qjs})
+    @OnClick({R.id.quanxuan, R.id.qjs})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.quanxuan:
                 quanxuan();
                 break;
             case R.id.qjs:
-                ShowShoppingBean lists=new ShowShoppingBean();
+                ShowShoppingBean lists = new ShowShoppingBean();
                 for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
-                    if (showShoppingBean.getResult().get(i).isItem_check()){
+                    if (showShoppingBean.getResult().get(i).isItem_check()) {
                         lists.addResult(showShoppingBean.getResult().get(i));
                     }
                 }
-                EventBus.getDefault().postSticky(new EventBean("list",lists));
+                EventBus.getDefault().postSticky(new EventBean("list", lists));
                 Intent intent = new Intent(getActivity(), TJDDActivity.class);
                 startActivity(intent);
                 break;
-                default:
-                    break;
+            case R.id.delAll:
+                ShowShoppingBean shoplists = new ShowShoppingBean();
+                for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
+                    if (showShoppingBean.getResult().get(i).isItem_check()) {
+                        shoppingAdapter.delAll(shoplists.getResult());
+                        shoppingAdapter.notifyDataSetChanged();
+                    }
+                }
+
+            default:
+                break;
         }
+    }
+
+    private void delAll() {
+        back();
+        for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
+            showShoppingBean.getResult().get(i).setItem_check(quanxuan.isChecked());
+        }
+        shoppingAdapter.delAll(showShoppingBean.getResult());
     }
 }

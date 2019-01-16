@@ -5,6 +5,16 @@
     android:orientation="vertical"
     >
     <include layout="@layout/toolbar"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_30"
+        android:gravity="center"
+        android:text="清空购物车"
+        android:layout_marginLeft="@dimen/dp_280"
+        android:background="@drawable/qujiesuan"
+        android:textColor="#fff"
+        android:id="@+id/delAll"
+        />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"

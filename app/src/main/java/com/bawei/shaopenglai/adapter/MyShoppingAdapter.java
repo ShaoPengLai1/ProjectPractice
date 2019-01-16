@@ -39,6 +39,12 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         mlist.addAll(list);
         notifyDataSetChanged();
     }
+    public void delAll(List<ShowShoppingBean.ResuleBean> list) {
+
+        mlist.retainAll(list);
+        notifyDataSetChanged();
+    }
+
 
     @NonNull
     @Override
