@@ -1,6 +1,7 @@
 package com.bawei.shaopenglai.adapter.mine;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.adapter.home.TopHomeAdapter;
 import com.bawei.shaopenglai.bean.mine.addr.MineFootBean;
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -55,7 +57,9 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(@NonNull XRecyclerView.ViewHolder viewHolder, final int i) {
         MineFootViewHolder footViewHolder= (MineFootViewHolder) viewHolder;
-        Glide.with(mContext).load(mList.get(i).getMasterPic()).into(footViewHolder.imageView);
+        Uri uri=Uri.parse(mList.get(i).getMasterPic());
+        footViewHolder.imageView.setImageURI(uri);
+        //Glide.with(mContext).load(mList.get(i).getMasterPic()).into(footViewHolder.imageView);
         footViewHolder.name.setText(mList.get(i).getCommodityName());
         footViewHolder.price.setText("￥"+mList.get(i).getPrice()+"");
         footViewHolder.llcs.setText("已浏览"+mList.get(i).getBrowseNum()+"次");
@@ -77,7 +81,7 @@ public class MineFootAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return mList.size();
     }
     public static class MineFootViewHolder extends RecyclerView.ViewHolder{
-        ImageView imageView;
+        SimpleDraweeView imageView;
         TextView name;
         TextView price;
         TextView llcs;

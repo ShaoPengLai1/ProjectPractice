@@ -1,6 +1,7 @@
 package com.bawei.shaopenglai.adapter.circle;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.bean.circle.CircleBean;
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 
 import java.text.SimpleDateFormat;
@@ -42,7 +44,10 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        Glide.with(context).load(list.get(i).getHeadPic()).into(viewHolder.circleSimpleHead);
+        Uri uri=Uri.parse(list.get(i).getHeadPic());
+
+        viewHolder.circleSimpleHead.setImageURI(uri);
+        //Glide.with(context).load(list.get(i).getHeadPic()).into(viewHolder.circleSimpleHead);
         viewHolder.circleSimpleTitle.setText(list.get(i).getNickName());
         String date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(
                 new java.util.Date(list.get(i).getCreateTime()));
@@ -53,7 +58,9 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
         if (image!=null){
             String[] split = image.split("\\,");
             final List<String> lists = Arrays.asList(split);
-            Glide.with(context).load(lists.get(0)).into(viewHolder.circleSimplePic);
+            Uri uri2=Uri.parse(lists.get(0));
+            viewHolder.circleSimplePic.setImageURI(uri2);
+            //Glide.with(context).load(lists.get(0)).into(viewHolder.circleSimplePic);
         }else {
             viewHolder.linear.setVisibility(View.GONE);
         }
@@ -80,11 +87,11 @@ public class CircleAdapter extends RecyclerView.Adapter<CircleAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView circleSimpleHead;
+        SimpleDraweeView circleSimpleHead;
         TextView circleSimpleTitle;
         TextView circleSimpleTime;
         TextView circleSimpleZhu;
-        ImageView circleSimplePic;
+        SimpleDraweeView circleSimplePic;
         ImageView circleSimpleGive;
         TextView circleTextGive;
         LinearLayout linear;

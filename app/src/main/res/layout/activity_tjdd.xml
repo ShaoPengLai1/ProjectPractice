@@ -8,7 +8,6 @@
     android:paddingLeft="@dimen/dp_24"
     android:paddingRight="@dimen/dp_24"
     tools:context=".ui.shopping.TJDDActivity">
-    <include layout="@layout/toolbar"/>
     <Button
         android:id="@+id/addAddress"
         android:layout_width="@dimen/dp_312"

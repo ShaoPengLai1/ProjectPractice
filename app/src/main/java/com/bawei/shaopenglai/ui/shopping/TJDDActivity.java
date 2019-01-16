@@ -45,8 +45,7 @@ import butterknife.OnClick;
 public class TJDDActivity extends AppCompatActivity implements IView {
 
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
     @BindView(R.id.addAddress)
     Button addAddress;
     @BindView(R.id.name)
@@ -87,15 +86,7 @@ public class TJDDActivity extends AppCompatActivity implements IView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tjdd);
         ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
         initView();
     }
 

@@ -7,9 +7,9 @@
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:orientation="vertical"
+    android:paddingTop="@dimen/dp_40"
     android:layout_gravity="center_vertical"
     tools:context=".ui.mineui.PersonalInformationActivity">
-    <include layout="@layout/toolbar"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

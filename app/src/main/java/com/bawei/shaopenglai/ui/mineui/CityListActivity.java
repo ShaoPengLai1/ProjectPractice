@@ -67,8 +67,7 @@ public class CityListActivity extends AppCompatActivity implements IView {
     EditText newPhone;
     @BindView(R.id.newAddr)
     EditText newAddr;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
     private CityPicker cityPicker;
     private String province;
     private String city;
@@ -88,15 +87,7 @@ public class CityListActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_city_list);
         ButterKnife.bind(this);
         initView();
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
     private void initView() {

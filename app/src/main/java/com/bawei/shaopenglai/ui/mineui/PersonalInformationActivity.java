@@ -36,8 +36,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
     View viewThree;
     @BindView(R.id.userPicture)
     SimpleDraweeView userPicture;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +44,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_personal_information);
         ButterKnife.bind(this);
         initView();
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
     private void initView() {

@@ -29,8 +29,7 @@ public class MainFootActivity extends AppCompatActivity implements IView {
 
     @BindView(R.id.xrecycle)
     XRecyclerView xrecycle;
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
     private MineFootAdapter footAdapter;
     private IPresenterImpl iPresenter;
     private int mPage;
@@ -42,15 +41,7 @@ public class MainFootActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_main_foot);
         ButterKnife.bind(this);
         initView();
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 
     private void initView() {
@@ -95,15 +86,17 @@ public class MainFootActivity extends AppCompatActivity implements IView {
     @Override
     public void getDataSuccess(Object data) {
         if (data instanceof MineFootBean) {
-            footBean = (MineFootBean) data;
-            if (footBean == null || !footBean.isSuccess()) {
+            MineFootBean footBean1= (MineFootBean) data;
+            if (footBean1 == null || !footBean1.isSuccess()) {
                 Toast.makeText(MainFootActivity.this,
-                        footBean.getMessage(), Toast.LENGTH_LONG).show();
+                        footBean1.getMessage(), Toast.LENGTH_LONG).show();
             } else {
                 if (mPage == 1) {
-                    footAdapter.setList(footBean.getResult());
+                    footBean=footBean1;
+                    footAdapter.setList(footBean1.getResult());
                 } else {
-                    footAdapter.addList(footBean.getResult());
+                    footBean.getResult().addAll(footBean1.getResult());
+                    footAdapter.addList(footBean1.getResult());
                 }
                 mPage++;
                 xrecycle.refreshComplete();

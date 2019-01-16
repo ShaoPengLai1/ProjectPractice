@@ -17,6 +17,7 @@ import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.bean.shopping.ShowShoppingBean;
 import com.bawei.shaopenglai.custom.CustomJiaJian;
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -58,7 +59,8 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         holder.tv_shop_name.setText(mlist.get(i).getCommodityName());
         holder.tv_shop_price.setText("￥"+mlist.get(i).getPrice()+"");
         Uri parse = Uri.parse(mlist.get(i).getPic());
-        Glide.with(context).load(mlist.get(i).getPic()).into(holder.sd_shop_sim);
+        holder.sd_shop_sim.setImageURI(parse);
+        //Glide.with(context).load(mlist.get(i).getPic()).into(holder.sd_shop_sim);
         holder.che_box.setChecked(mlist.get(i).isItem_check());
 
         holder.che_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -89,7 +91,7 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         @BindView(R.id.cus_view)
         CustomJiaJian cus_view;
         @BindView(R.id.sd_shop_sim)
-        ImageView sd_shop_sim;
+        SimpleDraweeView sd_shop_sim;
         @BindView(R.id.tv_shop_name)
         TextView tv_shop_name;
         @BindView(R.id.tv_shop_price)

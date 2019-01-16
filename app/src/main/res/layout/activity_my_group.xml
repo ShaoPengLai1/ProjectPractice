@@ -7,8 +7,8 @@
     android:layout_marginLeft="@dimen/dp_24"
     android:layout_marginRight="@dimen/dp_24"
     android:orientation="vertical"
+    android:paddingTop="@dimen/dp_40"
     tools:context=".ui.mineui.MyGroupActivity">
-    <include layout="@layout/toolbar"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

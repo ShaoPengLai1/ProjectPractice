@@ -1,6 +1,7 @@
 package com.bawei.shaopenglai.adapter.home;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.bean.home.HomeBean;
 import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,10 +45,11 @@ public class PinAdapter extends RecyclerView.Adapter<PinAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-
-        Glide.with(context).load(list.get(i).getMasterPic()).into(viewHolder.imageView);
+        Uri uri=Uri.parse(list.get(i).getMasterPic());
+        viewHolder.imageView.setImageURI(uri);
+        //Glide.with(context).load(list.get(i).getMasterPic()).into(viewHolder.imageView);
         viewHolder.name.setText(list.get(i).getCommodityName());
-        viewHolder.price.setText(list.get(i).getPrice()+"");
+        viewHolder.price.setText("￥"+list.get(i).getPrice()+"");
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +65,7 @@ public class PinAdapter extends RecyclerView.Adapter<PinAdapter.ViewHolder> {
         return list.size();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        private ImageView imageView;
+        private SimpleDraweeView imageView;
         private TextView name,price;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

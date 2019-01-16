@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/dingdan"
-                    android:text="WD20180930884324"
+                    android:text=""
                     />
                 <TextView
                     android:id="@+id/allordersDate"

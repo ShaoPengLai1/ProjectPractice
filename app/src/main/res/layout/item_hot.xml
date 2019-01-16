@@ -9,7 +9,7 @@
     android:background="@drawable/selector_background_ziliao"
     android:layout_height="match_parent">
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/imageView"
         android:layout_width="@dimen/dp_85"
         android:layout_height="@dimen/dp_99"

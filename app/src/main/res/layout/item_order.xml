@@ -17,7 +17,7 @@
         android:layout_marginRight="@dimen/dp_24"
         android:layout_toRightOf="@id/che_box"
         android:layout_height="@dimen/dp_97">
-        <ImageView
+        <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sd_shop_sim"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/dp_10"

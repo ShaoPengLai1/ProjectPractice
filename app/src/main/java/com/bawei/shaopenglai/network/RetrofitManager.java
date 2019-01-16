@@ -39,7 +39,7 @@ public class RetrofitManager <T>{
     }
     private BaseApis mBaseApis;
 
-    public RetrofitManager() {
+    private RetrofitManager() {
         /*HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);*/
 

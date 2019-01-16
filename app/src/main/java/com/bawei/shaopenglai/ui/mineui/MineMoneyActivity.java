@@ -15,8 +15,7 @@ import butterknife.ButterKnife;
 public class MineMoneyActivity extends AppCompatActivity {
 
 
-    @BindView(R.id.toolbar)
-    Toolbar mToolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +23,6 @@ public class MineMoneyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mine_money);
         ButterKnife.bind(this);
 
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);//左侧添加一个默认的返回图标
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+
     }
 }

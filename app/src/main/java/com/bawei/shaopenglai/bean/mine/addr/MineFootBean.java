@@ -35,7 +35,6 @@ public class MineFootBean {
     public void setResult(List<ResultBean> result) {
         this.result = result;
     }
-
     public static class ResultBean {
 
         private int browseNum;

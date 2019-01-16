@@ -141,6 +141,7 @@ public class MineFragment extends Fragment implements IView {
                 startActivity(intent5);
                 break;
             case R.id.mine_icon:
+
                 break;
             default:
                 break;
@@ -151,10 +152,7 @@ public class MineFragment extends Fragment implements IView {
 
     @Override
     public void getDataSuccess(Object data) {
-        if (data instanceof IconHear){
-            IconHear iconHear= (IconHear) data;
-            Toast.makeText(getActivity(),iconHear.getMessage(),Toast.LENGTH_LONG).show();
-        }
+
     }
 
     @Override
