@@ -21,6 +21,7 @@ import com.bawei.shaopenglai.adapter.order.OrderAdapter;
 import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.mine.addr.AddAddrBean;
 import com.bawei.shaopenglai.bean.mine.addr.AddressListBean;
+import com.bawei.shaopenglai.bean.shopping.QueryShoppingBean;
 import com.bawei.shaopenglai.bean.shopping.ShoppingCarBean;
 import com.bawei.shaopenglai.bean.shopping.ShowShoppingBean;
 import com.bawei.shaopenglai.custom.EventBean;
@@ -169,12 +170,12 @@ public class TJDDActivity extends AppCompatActivity implements IView {
                 break;
             case R.id.tjdd:
                 Map<String,String> map=new HashMap<>();
-                List<ShoppingCarBean> lists=new ArrayList<>();
+                List<QueryShoppingBean> lists=new ArrayList<>();
                 for (int i = 0; i < list.getResult().size(); i++) {
                     if (list.getResult().get(i).isItem_check()){
                         int commodityId = list.getResult().get(i).getCommodityId();
                         int count = list.getResult().get(i).getCount();
-                        lists.add(new ShoppingCarBean(commodityId,count));
+                        lists.add(new QueryShoppingBean(commodityId,count));
                     }
                 }
                 String s = new Gson().toJson(lists);

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.bean.shopping.ShowShoppingBean;
 import com.bawei.shaopenglai.custom.CustomJiaJian;
+import com.bawei.shaopenglai.custom.MyCustomView;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -40,12 +41,6 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         mlist.addAll(list);
         notifyDataSetChanged();
     }
-    public void delAll(List<ShowShoppingBean.ResuleBean> list) {
-
-        mlist.retainAll(list);
-        notifyDataSetChanged();
-    }
-
 
     @NonNull
     @Override
@@ -59,8 +54,7 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
         holder.tv_shop_name.setText(mlist.get(i).getCommodityName());
         holder.tv_shop_price.setText("￥"+mlist.get(i).getPrice()+"");
         Uri parse = Uri.parse(mlist.get(i).getPic());
-        holder.sd_shop_sim.setImageURI(parse);
-        //Glide.with(context).load(mlist.get(i).getPic()).into(holder.sd_shop_sim);
+        Glide.with(context).load(mlist.get(i).getPic()).into(holder.sd_shop_sim);
         holder.che_box.setChecked(mlist.get(i).isItem_check());
 
         holder.che_box.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -73,7 +67,7 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
             }
         });
         holder.cus_view.setDAta(this,mlist,i);
-        holder.cus_view.setCallbacklistener(new CustomJiaJian.Callbacklistener() {
+        holder.cus_view.setCallbacklistener(new MyCustomView.Callbacklistener() {
             @Override
             public void callback(int num) {
                 mlist.get(i).setCount(num);
@@ -89,9 +83,9 @@ public class MyShoppingAdapter extends XRecyclerView.Adapter<XRecyclerView.ViewH
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.cus_view)
-        CustomJiaJian cus_view;
+        MyCustomView cus_view;
         @BindView(R.id.sd_shop_sim)
-        SimpleDraweeView sd_shop_sim;
+        ImageView sd_shop_sim;
         @BindView(R.id.tv_shop_name)
         TextView tv_shop_name;
         @BindView(R.id.tv_shop_price)

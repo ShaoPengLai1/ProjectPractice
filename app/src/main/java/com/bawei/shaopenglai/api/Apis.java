@@ -52,11 +52,11 @@ public class Apis {
     /**
      * 创建订单 http://172.17.8.100/small/order/verify/v1/createOrder
      */
-    public static final String URL_CREATE_ORDER_POST="user/verify/v1/createOrder";
+    public static final String URL_CREATE_ORDER_POST="order/verify/v1/createOrder";
     /**
      * 支付 http://172.17.8.100/small/order/verify/v1/pay
      */
-    public static final String URL_PAY_POST="user/verify/v1/pay";
+    public static final String URL_PAY_POST="order/verify/v1/pay";
     /**
      * 根据订单状态查询订单信息 http://172.17.8.100/small/order/verify/v1/findOrderListByStatus
      */
@@ -64,11 +64,11 @@ public class Apis {
     /**
      * 删除订单 http://172.17.8.100/small/order/verify/v1/deleteOrder
      */
-    public static final String URL_DELETE_ORDER_DELETE="user/verify/v1/deleteOrder";
+    public static final String URL_DELETE_ORDER_DELETE="order/verify/v1/deleteOrder";
     /**
      * 收货 http://172.17.8.100/small/order/verify/v1/confirmReceipt
      */
-    public static final String URL_CONFIRM_RECEIPT_PUT="user/verify/v1/confirmReceipt";
+    public static final String URL_CONFIRM_RECEIPT_PUT="order/verify/v1/confirmReceipt";
     /**
      * 查询购物车 http://172.17.8.100/small/order/verify/v1/findShoppingCart
      */
@@ -100,11 +100,11 @@ public class Apis {
     /**
      * 圈子点赞 http://172.17.8.100/small/circle/verify/v1/addCircleGreat
      */
-    public static final String URL_ADD_CIRCLE_GREAT_POST="user/verify/v1/addCircleGreat";
+    public static final String URL_ADD_CIRCLE_GREAT_POST="circle/verify/v1/addCircleGreat";
     /**
      * 取消点赞 http://172.17.8.100/small/circle/verify/v1/cancelCircleGreat
      */
-    public static final String URL_CANCLE_CIRCLE_GREAT_DELETE="user/verify/v1/cancelCircleGreat";
+    public static final String URL_CANCLE_CIRCLE_GREAT_DELETE="circle/verify/v1/cancelCircleGreat";
     /**
      * banner展示列表 http://172.17.8.100/small/commodity/v1/bannerShow
      */

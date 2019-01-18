@@ -86,12 +86,30 @@ public class IModelImpl implements IModel {
 
             @Override
             public void onFail(String error) {
-
+                if(myCallBack != null){
+                    myCallBack.onFail(error);
+                }
             }
         });
     }
 
+    @Override
+    public void requestDelete(String quxiao, Map<String, String> map, final Class clazz, final MyCallBack myCallBack) {
+        RetrofitManager.getInstance().delete(quxiao, map, new RetrofitManager.HttpListener() {
+            @Override
+            public void onSuccess(String data) {
+                Object o = new Gson().fromJson(data, clazz);
+                myCallBack.onSuccess(o);
+            }
 
+            @Override
+            public void onFail(String error) {
+                if(myCallBack != null){
+                    myCallBack.onFail(error);
+                }
+            }
+        });
+    }
 
 
 }

@@ -63,6 +63,22 @@ public class IPresenterImpl implements IPresenter {
         });
     }
 
+    @Override
+    public void sendMessageDelete(String quxiao, Map<String, String> map, Class clazz) {
+        model.requestDelete(quxiao,map,clazz, new MyCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                iView.getDataSuccess(data);
+            }
+
+            @Override
+            public void onFail(String error) {
+                iView.getDataFail(error);
+            }
+
+
+        });
+    }
 
 
     /**

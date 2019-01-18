@@ -55,8 +55,7 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
     Unbinder unbinder;
     @BindView(R.id.qjs)
     TextView qjs;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
+
     @BindView(R.id.delAll)
     Button delAll;
 
@@ -199,7 +198,6 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
                 ShowShoppingBean shoplists = new ShowShoppingBean();
                 for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
                     if (showShoppingBean.getResult().get(i).isItem_check()) {
-                        shoppingAdapter.delAll(shoplists.getResult());
                         shoppingAdapter.notifyDataSetChanged();
                     }
                 }
@@ -214,6 +212,5 @@ public class ShoppingTrolleyFragment extends Fragment implements IView {
         for (int i = 0; i < showShoppingBean.getResult().size(); i++) {
             showShoppingBean.getResult().get(i).setItem_check(quanxuan.isChecked());
         }
-        shoppingAdapter.delAll(showShoppingBean.getResult());
     }
 }

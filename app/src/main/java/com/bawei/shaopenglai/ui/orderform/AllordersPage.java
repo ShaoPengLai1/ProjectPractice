@@ -14,10 +14,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.adapter.order.OrderAdapter;
+import com.bawei.shaopenglai.adapter.order.StringAdapter;
+import com.bawei.shaopenglai.api.Apis;
+import com.bawei.shaopenglai.bean.RegisterBean;
+import com.bawei.shaopenglai.bean.order.AlldorInfoBean;
 import com.bawei.shaopenglai.bean.order.AlldorInfoByStatusBean;
+import com.bawei.shaopenglai.bean.shopping.AddShopping;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.view.IView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,28 +32,11 @@ import butterknife.Unbinder;
 
 public class AllordersPage extends Fragment implements IView {
 
-    @BindView(R.id.dingdan)
-    TextView dingdan;
-    @BindView(R.id.dingdanhao)
-    TextView dingdanhao;
-    @BindView(R.id.allordersDate)
-    TextView allordersDate;
     @BindView(R.id.allordersRecycle)
     RecyclerView allordersRecycle;
-    @BindView(R.id.relativeTv4)
-    TextView relativeTv4;
-    @BindView(R.id.allordersCount)
-    TextView allordersCount;
-    @BindView(R.id.relativeTv5)
-    TextView relativeTv5;
-    @BindView(R.id.allordersPrice)
-    TextView allordersPrice;
-    @BindView(R.id.yuan)
-    TextView yuan;
     Unbinder unbinder;
     private IPresenterImpl iPresenter;
-    private OrderAdapter adapter;
-    private SharedPreferences sharedPreferences;
+    private StringAdapter adapter;
 
     @Nullable
     @Override
@@ -69,26 +59,88 @@ public class AllordersPage extends Fragment implements IView {
         iPresenter=new IPresenterImpl(this);
         allordersRecycle.setLayoutManager(new LinearLayoutManager(getActivity(),
                 LinearLayoutManager.VERTICAL,false));
-        adapter=new OrderAdapter(getActivity());
+        adapter=new StringAdapter(getActivity(),0);
         allordersRecycle.setAdapter(adapter);
         loadData();
+//        adapter.setShopCarListener(new StringAdapter.ShopCarListener() {
+////            @Override
+////            public void callBack(AlldorInfoBean.OrderListBean list) {
+////                Map<String,String> map=new HashMap<>();
+////                map.put("orderId",list.getOrderId());
+////                map.put("payType",1+"");
+////                iPresenter.startRequestPost(Apis.URL_PAY_POST,map,AddShopping.class);
+////            }
+////        });
+        adapter.cancleListener(new StringAdapter.CancleListener() {
+            @Override
+            public void callBack(AlldorInfoBean.OrderListBean list) {
+                Map<String,String> map=new HashMap<>();
+                map.put("orderId",list.getOrderId());
+                iPresenter.sendMessageDelete(Apis.URL_DELETE_ORDER_DELETE,map,RegisterBean.class);
+            }
+        });
+
+
+        adapter.setShopCarListener(new StringAdapter.ShopCarListener() {
+            @Override
+            public void callBack(AlldorInfoBean.OrderListBean list) {
+                String orderStatus = list.getOrderStatus();
+                int i = Integer.parseInt(orderStatus);
+                switch (i){
+                    case 1:
+                        Map<String,String> map=new HashMap<>();
+                        map.put("orderId",list.getOrderId());
+                        map.put("payType",1+"");
+                        iPresenter.startRequestPost(Apis.URL_PAY_POST,map,RegisterBean.class);
+                        break;
+                    case 2:
+                        Map<String, String> map1 = new HashMap<>();
+                        map1.put("orderId", list.getOrderId());
+                        iPresenter.startRequestPut(Apis.URL_CONFIRM_RECEIPT_PUT,map1,RegisterBean.class);
+                        break;
+                    case 3:
+                        Map<String, String> map3 = new HashMap<>();
+                        map3.put("orderId", list.getOrderId());
+                        map3.put("payType", 1 + "");
+                        iPresenter.startRequestPost(Apis.URL_PAY_POST, map3, RegisterBean.class);
+                        break;
+                    case 9:
+                        break;
+                    default:
+                        break;
+                }
+
+
+            }
+        });
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
     private void loadData() {
-//        iPresenter.startRequestGet(Apis.URL_FIND_ORDER_LIST_BYSTATUS_GET
-//                +"?status="+"0"+"&page="+"1"+"&count=5",null,AlldorInfoByStatusBean.class);
+        iPresenter.startRequestGet(Apis.URL_FIND_ORDER_LIST_BYSTATUS_GET
+                +"?status=0&page=1&count=5",null,AlldorInfoBean.class);
     }
 
     @Override
     public void getDataSuccess(Object data) {
-        if (data instanceof AlldorInfoByStatusBean){
-            AlldorInfoByStatusBean bean= (AlldorInfoByStatusBean) data;
-
+        if (data instanceof AlldorInfoBean){
+            AlldorInfoBean bean= (AlldorInfoBean) data;
             if (bean==null){
-                Toast.makeText(getActivity(),bean.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),bean.getMessage(),Toast.LENGTH_SHORT).show();
             }else {
-                //adapter.setmList(bean.getResult().getDetailList());
+                Toast.makeText(getActivity(),bean.getMessage(),Toast.LENGTH_SHORT).show();
+                adapter.setData(bean.getOrderList());
             }
+        }
+        if (data instanceof AddShopping){
+            AddShopping regBean= (AddShopping) data;
+            Toast.makeText(getActivity(),regBean.getMessage(),Toast.LENGTH_SHORT).show();
+            loadData();
         }
     }
 

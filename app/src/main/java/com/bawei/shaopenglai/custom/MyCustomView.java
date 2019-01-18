@@ -71,18 +71,19 @@ public class MyCustomView extends RelativeLayout implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.reverse:
-                num++;
+
+                if (num>1){
+                    num--;
+                }else {
+                    tosat("数量不能小于1");
+                }
                 editText.setText(num+"");
                 listBeans.get(position).setCount(num);
                 callbacklistener.callback(num);
                 shoppingAdapter.notifyItemChanged(position);
                 break;
             case R.id.add:
-                if (num>1){
-                    num--;
-                }else {
-                    tosat("数量不能小于1");
-                }
+                num++;
                 editText.setText(num+"");
                 listBeans.get(position).setCount(num);
                 callbacklistener.callback(num);

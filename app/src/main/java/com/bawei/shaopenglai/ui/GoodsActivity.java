@@ -1,5 +1,6 @@
 package com.bawei.shaopenglai.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +9,17 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bawei.shaopenglai.R;
 import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.shopping.AddShopping;
 import com.bawei.shaopenglai.bean.shopping.GoodsBean;
 import com.bawei.shaopenglai.bean.shopping.ShoppingBean;
 import com.bawei.shaopenglai.bean.shopping.ShoppingCarBean;
+import com.bawei.shaopenglai.custom.CustomJiaJian;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.custom.MyDialog;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
@@ -26,7 +28,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
-
+import com.bawei.shaopenglai.R;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -66,7 +68,7 @@ public class GoodsActivity extends AppCompatActivity implements IView {
     private MyDialog myDialog;
     private IPresenterImpl iPresenter;
     private int commodityId;
-
+    private int num;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,30 +92,29 @@ public class GoodsActivity extends AppCompatActivity implements IView {
             load();
         }
     }
-
+    @SuppressLint("JavascriptInterface")
     private void load() {
         String details = goodsBean.getResult().getDetails();
         String picture = goodsBean.getResult().getPicture();
         String[] split = picture.split(",");
         List<String> list = Arrays.asList(split);
-
-
-        banner.setImageLoader(new GlideImageLoader());
-        banner.setImages(list);
-        banner.start();
-        price.setText("￥" + goodsBean.getResult().getPrice() + "");
-        commodityName.setText(goodsBean.getResult().getCommodityName());
-        weight.setText(goodsBean.getResult().getWeight() + "kg");
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);//支持JS
-        String js = "<script type=\"text/javascript\">" +
+        String js = "<script type=\"text/javascript\">"+
                 "var imgs = document.getElementsByTagName('img');" + // 找到img标签
                 "for(var i = 0; i<imgs.length; i++){" +  // 逐个改变
                 "imgs[i].style.width = '100%';" +  // 宽度改为100%
                 "imgs[i].style.height = 'auto';" +
                 "}" +
                 "</script>";
-        webview.loadDataWithBaseURL(null, details + js, "text/html", "utf-8", null);
+        webview.loadDataWithBaseURL(null, details+js, "text/html", "utf-8", null);
+        banner.setImageLoader(new GlideImageLoader());
+        banner.setImages(list);
+        banner.start();
+        price.setText("￥" + goodsBean.getResult().getPrice() + "");
+        commodityName.setText(goodsBean.getResult().getCommodityName());
+        weight.setText(goodsBean.getResult().getWeight() + "kg");
+
     }
 
     @OnClick({R.id.shopAdd, R.id.shopBuy})
@@ -124,17 +125,21 @@ public class GoodsActivity extends AppCompatActivity implements IView {
                 View v = getLayoutInflater().inflate(R.layout.dialog_goods, null);
 
                 myDialog = new MyDialog(GoodsActivity.this, 0, 0, v, R.style.DialogTheme);
-
                 TextView recycle_price = v.findViewById(R.id.recycle_price);
                 TextView recycle_title = v.findViewById(R.id.recycle_title);
-                Button production = v.findViewById(R.id.production);
-                Button cancel = v.findViewById(R.id.cancel);
+                Button production=v.findViewById(R.id.production);
+                Button cancel=v.findViewById(R.id.cancel);
+                final CustomJiaJian customJiaJian = v.findViewById(R.id.customjiajian);
+                final EditText count=customJiaJian.findViewById(R.id.count);
+                String[] split = goodsBean.getResult().getPicture().split("\\|");
                 recycle_title.setText(goodsBean.getResult().getCommodityName());
-                recycle_price.setText("￥" + goodsBean.getResult().getPrice() + "");
+                recycle_price.setText("￥" + goodsBean.getResult().getPrice()+"");
                 production.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
-
+                        String string = count.getText().toString();
+                        num = Integer.parseInt(string);
                         selShopCar();
                         myDialog.dismiss();
                     }
@@ -179,22 +184,22 @@ public class GoodsActivity extends AppCompatActivity implements IView {
 
     private void addShopCar(List<ShoppingCarBean> list) {
 //        String string="[";
-        if (list.size() == 0) {
-            //如果取出来的数据为空，则直接添加数据
-            list.add(new ShoppingCarBean(commodityId, 1));
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                if (commodityId == list.get(i).getCommodityId()) {
+        if(list.size()==0){
+            list.add(new ShoppingCarBean(Integer.valueOf(commodityId),num));
+        }else {
+            for (int i=0;i<list.size();i++){
+                if(Integer.valueOf(commodityId)==list.get(i).getCommodityId()){
                     int count = list.get(i).getCount();
-                    count++;
+                    count+=num;
                     list.get(i).setCount(count);
                     break;
-                } else if (i == list.size() - 1) {
-                    list.add(new ShoppingCarBean(commodityId, 1));
+                }else if(i==list.size()-1){
+                    list.add(new ShoppingCarBean(Integer.valueOf(commodityId),num));
                     break;
                 }
             }
         }
+
 
         String s = new Gson().toJson(list);
         Map<String, String> map = new HashMap<>();
@@ -219,7 +224,6 @@ public class GoodsActivity extends AppCompatActivity implements IView {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
     }
 
 

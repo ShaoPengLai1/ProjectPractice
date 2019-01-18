@@ -21,7 +21,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ShoppingTrolleyActivity" />
-        <activity android:name=".ui.mineui.PersonalInformationActivity" />
+        <activity android:name=".ui.mineui.PersonalInforActivity" />
         <activity android:name=".ui.mineui.MyGroupActivity" />
         <activity android:name=".ui.mineui.CityListActivity" />
         <activity android:name=".ui.shopping.TJDDActivity" />

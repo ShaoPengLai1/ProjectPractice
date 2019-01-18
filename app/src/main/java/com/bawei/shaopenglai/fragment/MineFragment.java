@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,26 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bawei.shaopenglai.R;
-import com.bawei.shaopenglai.api.Apis;
 import com.bawei.shaopenglai.bean.home.Loginbean;
-import com.bawei.shaopenglai.bean.mine.IconHear;
 import com.bawei.shaopenglai.custom.EventBean;
 import com.bawei.shaopenglai.presenter.IPresenterImpl;
 import com.bawei.shaopenglai.ui.mineui.AddAddressActivity;
 import com.bawei.shaopenglai.ui.mineui.MainFootActivity;
 import com.bawei.shaopenglai.ui.mineui.MineMoneyActivity;
 import com.bawei.shaopenglai.ui.mineui.MyGroupActivity;
-import com.bawei.shaopenglai.ui.mineui.PersonalInformationActivity;
+import com.bawei.shaopenglai.ui.mineui.PersonalInforActivity;
 import com.bawei.shaopenglai.view.IView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -115,9 +108,8 @@ public class MineFragment extends Fragment implements IView {
             case R.id.nickname:
                 break;
             case R.id.personaldata:
-                Intent intent = new Intent(getActivity(), PersonalInformationActivity.class);
-                intent.putExtra("Name", loginbean.getResult().getNickName());
-                intent.putExtra("headIcon", loginbean.getResult().getHeadPic());
+                Intent intent = new Intent(getActivity(), PersonalInforActivity.class);
+
                 startActivity(intent);
                 break;
             case R.id.mycircle:

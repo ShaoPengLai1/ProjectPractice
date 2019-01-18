@@ -42,23 +42,26 @@
                 android:id="@+id/recycle_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/recycle_icon"
                 android:textColor="@color/white"
-                android:letterSpacing="0.2"
                 android:textSize="@dimen/sp_16"
                 />
             <TextView
                 android:id="@+id/recycle_price"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_40"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_20"
                 android:textColor="#ff0606"
                 android:layout_alignParentBottom="true"
                 android:text="668"
-                android:textSize="@dimen/sp_24"
+                android:textSize="18sp"
                 android:gravity="center"
-                android:layout_toRightOf="@id/recycle_icon"
                 />
-
+            <com.bawei.shaopenglai.custom.CustomJiaJian
+                android:id="@+id/customjiajian"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/dp_20"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                ></com.bawei.shaopenglai.custom.CustomJiaJian>
         </RelativeLayout>
 
         <View

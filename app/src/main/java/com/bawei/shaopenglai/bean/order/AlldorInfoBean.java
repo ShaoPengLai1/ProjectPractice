@@ -9,17 +9,9 @@ import java.util.List;
 
 public class AlldorInfoBean {
 
-    private String status;
     private String message;
-    private PorderInfo orderInfo;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    private String status;
+    private List<OrderListBean> orderList;
 
     public String getMessage() {
         return message;
@@ -29,56 +21,31 @@ public class AlldorInfoBean {
         this.message = message;
     }
 
-    public PorderInfo getOrderInfo() {
-        return orderInfo;
+    public String getStatus() {
+        return status;
     }
 
-    public void setOrderInfo(PorderInfo orderInfo) {
-        this.orderInfo = orderInfo;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    static class PorderInfo{
-        String orderId;
-        int userId;
-        int payMethod;
-        double payAmount;
-        String expressCompName;
-        long orderTime;
-        String expressSn;
-        int orderStatus;
-        List<DetailList> detailList;
+    public List<OrderListBean> getOrderList() {
+        return orderList;
+    }
 
-        public String getOrderId() {
-            return orderId;
-        }
+    public void setOrderList(List<OrderListBean> orderList) {
+        this.orderList = orderList;
+    }
 
-        public void setOrderId(String orderId) {
-            this.orderId = orderId;
-        }
-
-        public int getUserId() {
-            return userId;
-        }
-
-        public void setUserId(int userId) {
-            this.userId = userId;
-        }
-
-        public int getPayMethod() {
-            return payMethod;
-        }
-
-        public void setPayMethod(int payMethod) {
-            this.payMethod = payMethod;
-        }
-
-        public double getPayAmount() {
-            return payAmount;
-        }
-
-        public void setPayAmount(double payAmount) {
-            this.payAmount = payAmount;
-        }
+    public static class OrderListBean {
+        private String expressCompName;
+        private String expressSn;
+        private String orderId;
+        private String orderStatus;
+        private String payAmount;
+        private String payMethod;
+        private String userId;
+        private List<DetailListBean> detailList;
 
         public String getExpressCompName() {
             return expressCompName;
@@ -86,14 +53,6 @@ public class AlldorInfoBean {
 
         public void setExpressCompName(String expressCompName) {
             this.expressCompName = expressCompName;
-        }
-
-        public long getOrderTime() {
-            return orderTime;
-        }
-
-        public void setOrderTime(long orderTime) {
-            this.orderTime = orderTime;
         }
 
         public String getExpressSn() {
@@ -104,44 +63,84 @@ public class AlldorInfoBean {
             this.expressSn = expressSn;
         }
 
-        public int getOrderStatus() {
+        public String getOrderId() {
+            return orderId;
+        }
+
+        public void setOrderId(String orderId) {
+            this.orderId = orderId;
+        }
+
+        public String getOrderStatus() {
             return orderStatus;
         }
 
-        public void setOrderStatus(int orderStatus) {
+        public void setOrderStatus(String orderStatus) {
             this.orderStatus = orderStatus;
         }
 
-        public List<DetailList> getDetailList() {
+        public String getPayAmount() {
+            return payAmount;
+        }
+
+        public void setPayAmount(String payAmount) {
+            this.payAmount = payAmount;
+        }
+
+        public String getPayMethod() {
+            return payMethod;
+        }
+
+        public void setPayMethod(String payMethod) {
+            this.payMethod = payMethod;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
+
+        public List<DetailListBean> getDetailList() {
             return detailList;
         }
 
-        public void setDetailList(List<DetailList> detailList) {
+        public void setDetailList(List<DetailListBean> detailList) {
             this.detailList = detailList;
         }
 
-        static class DetailList{
-            int orderDetailId;
-            int commodityId;
-            String commodityName;
-            int commodityCount;
-            String commodityPic;
-            double commodityPrice;
-            int commentStatus;
+        public static class DetailListBean {
+            private String commentStatus;
+            private String commodityCount;
+            private String commodityId;
+            private String commodityName;
+            private String commodityPic;
+            private String commodityPrice;
+            private String orderDetailId;
 
-            public int getOrderDetailId() {
-                return orderDetailId;
+            public String getCommentStatus() {
+                return commentStatus;
             }
 
-            public void setOrderDetailId(int orderDetailId) {
-                this.orderDetailId = orderDetailId;
+            public void setCommentStatus(String commentStatus) {
+                this.commentStatus = commentStatus;
             }
 
-            public int getCommodityId() {
+            public String getCommodityCount() {
+                return commodityCount;
+            }
+
+            public void setCommodityCount(String commodityCount) {
+                this.commodityCount = commodityCount;
+            }
+
+            public String getCommodityId() {
                 return commodityId;
             }
 
-            public void setCommodityId(int commodityId) {
+            public void setCommodityId(String commodityId) {
                 this.commodityId = commodityId;
             }
 
@@ -153,14 +152,6 @@ public class AlldorInfoBean {
                 this.commodityName = commodityName;
             }
 
-            public int getCommodityCount() {
-                return commodityCount;
-            }
-
-            public void setCommodityCount(int commodityCount) {
-                this.commodityCount = commodityCount;
-            }
-
             public String getCommodityPic() {
                 return commodityPic;
             }
@@ -169,20 +160,20 @@ public class AlldorInfoBean {
                 this.commodityPic = commodityPic;
             }
 
-            public double getCommodityPrice() {
+            public String getCommodityPrice() {
                 return commodityPrice;
             }
 
-            public void setCommodityPrice(double commodityPrice) {
+            public void setCommodityPrice(String commodityPrice) {
                 this.commodityPrice = commodityPrice;
             }
 
-            public int getCommentStatus() {
-                return commentStatus;
+            public String getOrderDetailId() {
+                return orderDetailId;
             }
 
-            public void setCommentStatus(int commentStatus) {
-                this.commentStatus = commentStatus;
+            public void setOrderDetailId(String orderDetailId) {
+                this.orderDetailId = orderDetailId;
             }
         }
     }
